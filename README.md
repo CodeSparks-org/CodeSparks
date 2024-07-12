@@ -1,4 +1,6 @@
 # CodeSparks
 
-Let's do something fun!
-Feel free to create an issue or join the chat: https://t.me/codesparks
+Let's do something fun together!
+
+Feel free to create an issue with idea or question.
+Also here is the chat: https://t.me/codesparks
