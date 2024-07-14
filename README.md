@@ -1,12 +1,12 @@
 # CodeSparks: Ignite Your Tech Sparks ✨
-CodeSparks helps to transform ideas into reality through collaboration with people and computers.
+CodeSparks helps to transform ideas into reality through collaboration with people, computers, and AI.
 It is designed to empower you with your tech journey. ‍ Whether you're a curious beginner or a seasoned professional looking to explore new horizons, CodeSparks provides an open and engaging environment to develop your tech skills.
 
 ## Build and run this project
 The only prerequisite is .NET 8 installed. Just use typical commands to run the project:
 `dotnet build`
 `dotnet run`
-Or open folder/solution in your favourite IDE and run it.
+or open folder/solution in your favourite IDE and run it.
 
 ## Contributing
 We welcome contributions! If you're passionate about tech education and want to help us make CodeSparks even better, feel free to:
