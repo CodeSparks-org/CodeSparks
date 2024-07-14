@@ -1,4 +1,4 @@
-# CodeSparks: Ignite Your Sparks ✨
+# CodeSparks: Ignite Your Tech Sparks ✨
 CodeSparks helps to transform ideas into reality through collaboration with people and computers.
 It is designed to empower you with your tech journey. ‍ Whether you're a curious beginner or a seasoned professional looking to explore new horizons, CodeSparks provides a fun and engaging environment to develop your tech skills.
 
