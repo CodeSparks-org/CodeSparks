@@ -15,9 +15,7 @@ Suggest Improvements: Share your ideas and suggestions for enhancing the platfor
 Pull Requests: If you have coding skills, contribute bug fixes or new features through pull requests.
 [Suggest your ideas!](https://github.com/CodeSparks-org/CodeSparks/issues)
 
-## Roadmap
-* We will be happy to implement your ideas listed [in this repository](https://github.com/CodeSparks-org/CodeSparks/issues).
-### Future vision
+## Future vision
 Interactive Learning: Master coding concepts through interactive lessons, puzzles, and challenges.
 Gamified Experience: Earn points, badges, and climb the leaderboard to stay motivated and engaged.
 Personalized Learning Paths: Explore curated learning paths tailored to your skill level and interests.
