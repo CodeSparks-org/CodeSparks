@@ -13,10 +13,10 @@ We welcome contributions! If you're passionate about tech education and want to 
 Report Issues: If you encounter any bugs or issues, please report them through the GitHub issue tracker.
 Suggest Improvements: Share your ideas and suggestions for enhancing the platform.
 Pull Requests: If you have coding skills, contribute bug fixes or new features through pull requests.
-[https://github.com/CodeSparks-org/CodeSparks/issues](Suggest your ideas!)
+[Suggest your ideas!](https://github.com/CodeSparks-org/CodeSparks/issues)
 
 ## Roadmap
-* We will be happy to implement your ideas listed [https://github.com/CodeSparks-org/CodeSparks/issues](in this repository).
+* We will be happy to implement your ideas listed [in this repository](https://github.com/CodeSparks-org/CodeSparks/issues).
 ### Future vision
 Interactive Learning: Master coding concepts through interactive lessons, puzzles, and challenges.
 Gamified Experience: Earn points, badges, and climb the leaderboard to stay motivated and engaged.
