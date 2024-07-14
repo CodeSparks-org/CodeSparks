@@ -1,12 +1,46 @@
-﻿<div class="text-center">
+﻿@{
+    var sparks = new List<(string, string)>
+    {
+        new ("Sparks in database", "Make it possible to have a dynamic list of sparks"),
+        new ("Add new sparks", "Make it possible to add new tech sparks, so they can be tracked and implemented"),
+        new ("Put sparks into practice", "Add ability to change status for tech sparks, which are done"),
+    };
+}
+
+<div class="text-center">
     <h1 class="display-4">❇️🎆✨🎇✴️</h1>
-    <p>Work is actively in progress
+</div>
+
+<h4 class="mt-5">Sparks, igniting now</h4>
+
+
+<div class="row">
+    @for (int i = 0; i < 3; i++) //hardcoded for now
+    {
+        var spark = sparks[i];
+        var href = "https://github.com/CodeSparks-org/CodeSparks/issues/" + i + 1;
+        <div class="col-md-4">
+            <div class="card mt-2" style="width: 18rem;">
+                @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+                <div class="card-body">
+                    <h5 class="card-title">@spark.Item1</h5>
+                    <p class="card-text">@spark.Item2</p>
+                    <a href="@href" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<a href="https://github.com/CodeSparks-org/CodeSparks/issues/" class="btn btn-success">＋ Ignite a Spark</a>
+
+
+<div class="mt-5">
+
+    <p>
+        Work is actively in progress
         <a target="_blank" href="https://github.com/CodeSparks-org/CodeSparks">in the Github repository</a>.
     </p>
     <p>Discssion is in <a target="_blank" href="https://t.me/codesparks">this Telegram chat</a>.
 
-    <h4 class="mt-5">Those sparks are flashing</h4>
-    <div class="card mt-1">Add tasks to database</div>
-    <div class="card mt-1">Add ability to add new task</div>
-    <div class="card mt-1">Add ability to finish the task</div>
 </div>

@@ -4,7 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var hostingProvider = Environment.GetEnvironmentVariable("HOSTING_PROVIDER");
+
 bool isRender = hostingProvider?.ToLower() == "render.com";
+#if DEBUG
+isRender = true;
+#endif
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
