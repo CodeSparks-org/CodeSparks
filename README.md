@@ -3,10 +3,10 @@ CodeSparks helps to transform ideas into reality through collaboration with peop
 It is designed to empower you with your tech journey. ‍ Whether you're a curious beginner or a seasoned professional looking to explore new horizons, CodeSparks provides an open and engaging environment to develop your tech skills.
 
 ## Future vision
-Interactive Learning: Master coding concepts through interactive lessons, puzzles, and challenges.
-Gamified Experience: Earn points, badges, and climb the leaderboard to stay motivated and engaged.
-Personalized Learning Paths: Explore curated learning paths tailored to your skill level and interests.
-Supportive Community: Connect with fellow coders, share experiences, and learn from each other.
+* Interactive Learning: Master coding concepts through interactive lessons, puzzles, and challenges.
+* Gamified Experience: Earn points, badges, and climb the leaderboard to stay motivated and engaged.
+* Personalized Learning Paths: Explore curated learning paths tailored to your skill level and interests.
+* Supportive Community: Connect with fellow coders, share experiences, and learn from each other.
 
 ## Contact
 Telegram chat: https://t.me/codesparks
