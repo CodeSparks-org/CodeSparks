@@ -10,10 +10,11 @@ or open folder/solution in your favourite IDE and run it.
 
 ## Contributing
 We welcome contributions! If you're passionate about tech education and want to help us make CodeSparks even better, feel free to:
-Report Issues: If you encounter any bugs or issues, please report them through the GitHub issue tracker.
-Suggest Improvements: Share your ideas and suggestions for enhancing the platform.
-Pull Requests: If you have coding skills, contribute bug fixes or new features through pull requests.
-[Suggest your ideas!](https://github.com/CodeSparks-org/CodeSparks/issues)
+- Report Issues: If you encounter any bugs or issues, please report them through the GitHub issue tracker.
+- Suggest Improvements: Share your ideas and suggestions for enhancing the platform.
+- Create Pull Requests: If you have coding skills, contribute bug fixes or new features through pull requests.
+
+And of course [Suggest your ideas!](https://github.com/CodeSparks-org/CodeSparks/issues)
 
 ## Future vision
 Interactive Learning: Master coding concepts through interactive lessons, puzzles, and challenges.
