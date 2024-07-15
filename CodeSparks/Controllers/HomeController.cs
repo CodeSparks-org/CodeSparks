@@ -1,4 +1,4 @@
-using CodeSparks.Models;
+using CodeSparks.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

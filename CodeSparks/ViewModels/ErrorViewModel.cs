@@ -1,4 +1,4 @@
-namespace CodeSparks.Models
+namespace CodeSparks.ViewModels
 {
     public class ErrorViewModel
     {
