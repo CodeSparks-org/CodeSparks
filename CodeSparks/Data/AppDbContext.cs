@@ -7,6 +7,7 @@ namespace CodeSparks.Data
 {
     public class AppDbContext : IdentityDbContext<AppUser, IdentityRole<long>, long>
     {
+        public DbSet<AppMetadata> AppMetadata { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
