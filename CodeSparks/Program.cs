@@ -12,7 +12,11 @@ isRender = true;
 #endif
 
 // Add services to the container.
+#if DEBUG
+var connectionString = builder.Configuration.GetConnectionString("DebugConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+#else
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+#endif
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
