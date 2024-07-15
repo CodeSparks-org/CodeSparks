@@ -59,6 +59,7 @@ namespace CodeSparks.Controllers
             if (ModelState.IsValid)
             {
                 appMetadata.Id = Guid.NewGuid();
+                appMetadata.Updated = appMetadata.Updated.ToUniversalTime();
                 _context.Add(appMetadata);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -98,6 +99,7 @@ namespace CodeSparks.Controllers
             {
                 try
                 {
+                    appMetadata.Updated = appMetadata.Updated.ToUniversalTime();
                     _context.Update(appMetadata);
                     await _context.SaveChangesAsync();
                 }

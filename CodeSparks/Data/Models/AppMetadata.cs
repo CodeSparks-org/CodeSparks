@@ -16,7 +16,7 @@ namespace CodeSparks.Data.Models
 
         public AppMetadata()
         {
-            Updated = DateTime.UtcNow;
+            Updated = DateTime.UtcNow.ToUniversalTime();
         }
 
     }
