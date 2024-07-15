@@ -17,6 +17,8 @@ The only prerequisite is .NET 8 installed. Just use typical commands to run the 
 `dotnet run`
 or open folder/solution in your favourite IDE and run it.
 
+If you would like to have a full dev experience - you also need to configure database. For this - check the appsettings.json file, change the connection string to match the database that you plan to user and run migrations.
+
 ## Contributing
 We welcome contributions! If you're passionate about tech education and want to help us make CodeSparks even better, feel free to:
 - Report Issues: If you encounter any bugs or issues, please report them through the GitHub issue tracker.
