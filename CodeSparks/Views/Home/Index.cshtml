@@ -7,10 +7,54 @@
     };
 }
 
-<div class="text-center">
-    <h1 class="display-4">❇️🎆✨🎇✴️</h1>
-</div>
+<div class="container">
 
+    <h2>New Sparks ❇️</h2>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Put sparks into practice</h5>
+                    <p class="card-text">Add ability to change status for tech sparks, which are done</p>
+                    <a href="https://github.com/CodeSparks-org/CodeSparks/issues/21" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="/home/createspark" class="btn btn-success mt-3">More...</a>
+    <hr />
+    <h2>Popular Sparks 🎆</h2>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Another Spark Example</h5>
+                    <p class="card-text">This is a brief description of the Spark.</p>
+                    <a href="#" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="/home/createspark" class="btn btn-success mt-3">More...</a>
+    <hr />
+    <h2>Your Sparks ✴️</h2>
+    @* <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Another Spark Example</h5>
+                    <p class="card-text">This is a brief description of the Spark.</p>
+                    <a href="#" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    </div> *@
+    <a href="/home/createspark" class="btn btn-warning mt-3">＋ Ignite your first Spark *</a>
+</div>
+    </div>
+
+
+@*
 <h4 class="mt-5">Flaming Sparks</h4>
 <div class="row">
     @for (int i = 1; i < 3; i++) //hardcoded for now
@@ -19,7 +63,7 @@
         var href = "https://github.com/CodeSparks-org/CodeSparks/issues/" + i + 1;
         <div class="col-md-3">
             <div class="card mt-2" style="width: 18rem;">
-                @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+                <img class="card-img-top" src="..." alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">@spark.Item1</h5>
                     <p class="card-text">@spark.Item2</p>
@@ -28,27 +72,6 @@
             </div>
         </div>
     }
-</div>
+</div> *@
 
-
-<h4 class="mt-5">Completed Sparks</h4>
-<div class="row">
-    @for (int i = 0; i < 1; i++) //hardcoded for now
-    {
-        var spark = sparks[i];
-        var href = "https://github.com/CodeSparks-org/CodeSparks/issues/" + i + 1;
-        <div class="col-md-3">
-            <div class="card mt-2" style="width: 18rem;">
-                @* <img class="card-img-top" src="..." alt="Card image cap"> *@
-                <div class="card-body">
-                    <h5 class="card-title">@spark.Item1</h5>
-                    <p class="card-text">@spark.Item2</p>
-                    <a href="@href" class="btn btn-primary">Details</a>
-                </div>
-            </div>
-        </div>
-    }
-</div>
-
-<a href="https://github.com/CodeSparks-org/CodeSparks/issues/" class="btn btn-success mt-3">＋ Ignite a new Spark *</a>
-
+@* <h1 class="display-4">❇️🎆✨🎇✴️</h1> *@
