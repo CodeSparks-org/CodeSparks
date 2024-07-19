@@ -1,5 +1,5 @@
 # Ignite Your Tech Sparks ❇️🎆✨🎇✴️
-CodeSparks helps to transform ideas into reality through collaboration with people, computers, and AI.
+CodeSparks helps to transform ideas into reality through collaboration with people, programs, and AI.
 It is designed to empower you with your tech journey. ‍ Whether you're a curious beginner or a seasoned professional looking to explore new horizons, CodeSparks provides an open and engaging environment to develop your tech skills.
 
 ## Future vision
