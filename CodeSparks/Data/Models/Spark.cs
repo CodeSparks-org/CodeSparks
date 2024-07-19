@@ -5,7 +5,7 @@ namespace CodeSparks.Data.Models
 {
     public class Spark
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         [MaxLength(100)]
         public required string Name { get; set; }
         [MaxLength(1000)]
