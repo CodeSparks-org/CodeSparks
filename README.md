@@ -11,6 +11,8 @@ It is designed to empower you with your tech journey. ‍ Whether you're a curio
 ## Contact
 Telegram chat: https://t.me/codesparks
 
+
+
 ## Build, run, contributing
 ### How to run
 The project in this repo is ASP.NET Core app, so the only prerequisite is .NET 8 installed. Just use typical commands to run the project:
