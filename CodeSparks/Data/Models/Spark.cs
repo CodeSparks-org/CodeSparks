@@ -10,7 +10,7 @@ namespace CodeSparks.Data.Models
         public required string Name { get; set; }
         [MaxLength(1000)]
         public required string Description { get; set; }
-        public SparkStatus Status { get; set; } // Enum for spark status
+        public SparkStatus Status { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 
@@ -19,7 +19,5 @@ namespace CodeSparks.Data.Models
         NotStarted,
         InProgress,
         Completed
-
-        //TODO move to database or at least extend and add numbers for future changes and db state
     }
 }

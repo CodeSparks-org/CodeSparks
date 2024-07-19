@@ -1,0 +1,87 @@
+﻿@{
+    var sparks = new List<(string, string)>
+    {
+        new ("Add Sparks to database", "Make it possible to have a dynamic list of sparks"),
+        new ("Flow to add new sparks", "Make it possible to add new tech sparks, so they can be tracked and implemented"),
+        new ("Put sparks into practice", "Add ability to change status for tech sparks, which are done"),
+    };
+}
+
+<div class="container">
+
+    <h2>New Sparks ❇️</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Put sparks into practice</h5>
+                    <p class="card-text">Add ability to change status for tech sparks, which are done</p>
+                    <a href="https://github.com/CodeSparks-org/CodeSparks/issues/2" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card mt-2" style="width: 18rem;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Another Spark</h5>
+                    <p class="card-text">Another spark description</p>
+                    <a href="https://github.com/CodeSparks-org/CodeSparks/issues/" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="/home/createspark" class="btn btn-secondary mt-3">More...</a>
+    <hr />
+    <h2>Popular Sparks 🎆</h2>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Another Spark Example</h5>
+                    <p class="card-text">This is a brief description of the Spark.</p>
+                    <a href="#" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="/home/createspark" class="btn btn-success mt-3">More...</a>
+    <hr />
+    <h2>Your Sparks ✴️</h2>
+    @* <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+    <div class="card">
+    <div class="card-body">
+    <h5 class="card-title">Another Spark Example</h5>
+    <p class="card-text">This is a brief description of the Spark.</p>
+    <a href="#" class="btn btn-primary">Details</a>
+    </div>
+    </div>
+    </div>
+    </div> *@
+    <a href="/home/createspark" class="btn btn-warning mt-3">＋ Ignite your first Spark *</a>
+</div>
+    </div>
+
+
+@*
+<h4 class="mt-5">Flaming Sparks</h4>
+<div class="row">
+    @for (int i = 1; i < 3; i++) //hardcoded for now
+    {
+        var spark = sparks[i];
+        var href = "https://github.com/CodeSparks-org/CodeSparks/issues/" + i + 1;
+        <div class="col-md-3">
+            <div class="card mt-2" style="width: 18rem;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@spark.Item1</h5>
+                    <p class="card-text">@spark.Item2</p>
+                    <a href="@href" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div> *@
+
+@* <h1 class="display-4">❇️🎆✨🎇✴️</h1> *@
