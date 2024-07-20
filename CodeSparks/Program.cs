@@ -32,7 +32,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole<long>>(options => options.Sig
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddHealthChecks();
-builder.Services.AddCoreAdmin();
+builder.Services.AddCoreAdmin("Admin");
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddTransient<IEmailSender, InMemoryEmailSender>(); // Replace with your implementation
 
