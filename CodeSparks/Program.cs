@@ -2,7 +2,6 @@ using CodeSparks.Data;
 using CodeSparks.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var hostingProvider = Environment.GetEnvironmentVariable("HOSTING_PROVIDER");
@@ -32,6 +31,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole<long>>(options => options.Sig
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddHealthChecks();
+builder.Services.AddCoreAdmin();
 
 var app = builder.Build();
 app.Logger.LogInformation("Application starting up");
