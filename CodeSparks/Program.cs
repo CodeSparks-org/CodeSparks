@@ -58,7 +58,9 @@ else
 if (!isRender) {
     app.UseHttpsRedirection();
 }
-    
+
+app.UseDeveloperExceptionPage();
+
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();

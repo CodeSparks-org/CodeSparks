@@ -12,6 +12,8 @@ namespace CodeSparks.Data.Models
         public required string Description { get; set; }
         public SparkStatus Status { get; set; }
         public DateTime CreatedDate { get; set; }
+        public bool IsPublic { get; set; }
+        public SparkCategory Category { get; set; }
     }
 
     public enum SparkStatus
@@ -19,5 +21,13 @@ namespace CodeSparks.Data.Models
         NotStarted,
         InProgress,
         Completed
+    }
+
+    public enum SparkCategory
+    {
+        Uncategorized = 0,
+        Idea = 1,
+        CodeSparksTask = 2,
+        Learning = 3,
     }
 }
