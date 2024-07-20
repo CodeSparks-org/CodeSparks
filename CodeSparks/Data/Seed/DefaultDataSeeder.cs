@@ -35,11 +35,11 @@ namespace CodeSparks.Data.Seed
             }
 
             // Seed Default User
-            var defaultUser = new AppUser { UserName = "admin", Email = "admin@gmail.com" };
+            var defaultUser = new AppUser { UserName = "gbdrm1@gmail.com", Email = "gbdrm1@gmail.com" };
             var userExists = await _userManager.FindByEmailAsync(defaultUser.Email);
             if (userExists == null)
             {
-                var createResult = await _userManager.CreateAsync(defaultUser, "23E13Q%d5F)aaXB00+n5,98[");
+                var createResult = await _userManager.CreateAsync(defaultUser, "SomePassword");
                 if (createResult.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(defaultUser, "Admin");
