@@ -1,6 +1,9 @@
 using CodeSparks.Data;
 using CodeSparks.Data.Models;
+using CodeSparks.Data.Seed;
+using CodeSparks.Temp;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,18 +14,16 @@ bool isRender = hostingProvider?.ToLower() == "render.com";
 isRender = true;
 #endif
 
-var connectionString = builder.Configuration.GetConnectionString("PgSecretConnection");
+var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
 
 // fallback to DefaultConnection
-if(connectionString == null)
+if (connectionString == null)
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
         ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     //options.UseSqlServer(connectionString));
     options.UseNpgsql(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 builder.Services.AddIdentity<AppUser, IdentityRole<long>>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole<long>>()
     .AddUserManager<UserManager<AppUser>>()
@@ -32,12 +33,18 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddHealthChecks();
 builder.Services.AddCoreAdmin();
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddTransient<IEmailSender, InMemoryEmailSender>(); // Replace with your implementation
 
 var app = builder.Build();
 app.Logger.LogInformation("Application starting up");
-if (isRender)
+
+using (var scope = app.Services.CreateScope())
 {
-    app.Logger.LogInformation("Deployed on render.com");
+    app.Logger.LogInformation("Seeding initial data.");
+    var services = scope.ServiceProvider;
+    var seeder = new DefaultDataSeeder(services);
+    await seeder.SeedAsync();
 }
 
 // Configure the HTTP request pipeline.
@@ -48,17 +55,21 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    if (!isRender)
-    {
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-    }
 }
 
-if (!isRender) {
+if (isRender)
+{
+    app.Logger.LogInformation("Deployed on render.com, no need in https");
+}
+else
+{
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+
     app.UseHttpsRedirection();
 }
 
+// TODO: move later to dev env
 app.UseDeveloperExceptionPage();
 
 app.UseStaticFiles();
