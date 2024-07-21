@@ -27,6 +27,10 @@ namespace CodeSparks.Data.Models
         [ForeignKey("Project")]
         public long? ProjectId { get; set; }
         public virtual Project? Project { get; set; }
+
+        [Url]
+        [MaxLength(100)]
+        public string? Url { get; set; }
     }
 
     public enum SparkStatus

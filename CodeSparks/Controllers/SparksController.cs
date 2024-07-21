@@ -62,7 +62,7 @@ namespace CodeSparks.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Status,IsPublic,Category")] Spark spark)
+        public async Task<IActionResult> Create(Spark spark)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +94,7 @@ namespace CodeSparks.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Description,Status,IsPublic,Category")] Spark spark)
+        public async Task<IActionResult> Edit(long id, Spark spark)
         {
             if (id != spark.Id)
             {

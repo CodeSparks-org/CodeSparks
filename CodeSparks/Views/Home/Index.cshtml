@@ -3,10 +3,23 @@
 @{
     var starters = new List<Spark>
     {
-        new Spark { Name = "First Spark", Description = "Try me!", Id = -1 },
+        //new Spark { Name = "First Spark", Description = "Try me!", Id = -1 },
     };
 }
 
+<style>
+    body::before {
+        content: "";
+        background-image: url("/img/sparks_bg1.jpg");
+        opacity: 0.1; /* Adjust this value (0.0 - 1.0) to control opacity */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1; /* Place the pseudo-element behind the content */
+    }
+</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <section class="how-it-works container my-5">
@@ -32,6 +45,10 @@
 <div class="container">
     <h2>❇️ Starter Sparks</h2>
     <div class="row mb-3">
+        @if(starters.Count == 0)
+        {
+            <p>No starter sparks for now, the feature is going to be ready in a couple of days</p>
+        }
         @foreach (var spark in starters)
         {
             <div class="card-deck col-md-3">
@@ -68,7 +85,11 @@
         }
     </div>
 
-    <h2>🎆 Active Sparks</h2>
+    @if(Model.Count > 0)
+    {
+        <h2>🎆 Active Sparks</h2>
+    }
+    
     <div class="row mb-3">
         @foreach (var spark in Model)
         {

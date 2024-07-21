@@ -24,7 +24,7 @@
     </div>
     <div class="col-md-6 no-stars">
         <h2>Create a New Spark 🎆</h2>
-        <p class="form-text text-muted mb-3">
+        <p class="form-text text-muted mb-3 d-block">
             A Spark is a small tech task or idea, that helps you to level-up your tech skills. It can be something to find, learn, code, etc.
             For example: Read a tech article, Solve algorithm problem, Pass a test.
         </p>
@@ -32,9 +32,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3">
                 <label asp-for="Name" class="form-label fw-bold">Name</label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" autofocus />
                 <span asp-validation-for="Name" class="text-danger"></span>
-                <small class="form-text text-muted">
+                <small class="form-text text-muted d-block">
                     Choose a name that represents the goal of your Spark (e.g., 'Deploy web site' 'Learn Python basics').
                 </small>
             </div>
@@ -46,8 +46,12 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Status" class="form-label">Status</label>
-                <select asp-for="Status" asp-items="Html.GetEnumSelectList<SparkStatus>()" class="form-select"></select>
+                <label asp-for="Url" class="form-label fw-bold">Link (URL)</label>
+                <input asp-for="Url" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+                <small class="form-text text-muted d-block">
+                    Is there a link for this Spark? e.g. repository or article in the web?
+                </small>
             </div>
 
             <div class="mb-3 form-check">

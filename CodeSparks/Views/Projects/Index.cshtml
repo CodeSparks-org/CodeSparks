@@ -1,8 +1,12 @@
 ﻿@model IEnumerable<CodeSparks.Data.Models.Project>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Projects";
 }
+
+<p>
+    Do you work on some open-source project? <a asp-action="Create">Add</a> it to CodeSparks!
+</p>
 
 <p>
     <a asp-action="Create" class="btn btn-primary">+ Add a Project</a>
