@@ -38,7 +38,8 @@
                     <input type="password" class="form-control signup-input" asp-for="Input.ConfirmPassword" required>
                     <span asp-validation-for="Input.ConfirmPassword" class="validation-issue"></span>
                 </div>
-                <div asp-validation-summary="ModelOnly" class="validation-issue" role="alert"></div>
+                <div asp-validation-summary="ModelOnly" class="validation-issue" role="alert" style="max-height: 70px;overflow: auto;">
+                </div>
                 <div class="mt-3">
                     <button type="submit" class="btn-dark-custom">Begin the journey</button>
                 </div>
