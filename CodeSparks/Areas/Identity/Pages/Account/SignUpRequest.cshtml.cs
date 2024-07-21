@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CodeSparks.Areas.Identity.Pages.Account
 {
-    public class WelcomeModel : PageModel
+    public class SignUpRequestModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
 
-        public WelcomeModel(UserManager<AppUser> userManager)
+        public SignUpRequestModel(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }

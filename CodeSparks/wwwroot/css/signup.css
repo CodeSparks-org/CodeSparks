@@ -81,5 +81,6 @@ canvas {
 }
 
 .validation-issue {
-    color: #ff9999; font-size: smaller;
+    color: #ff9999;
+    font-size: smaller;
 }
