@@ -1,0 +1,85 @@
+﻿.spacefont {
+    font-family: monospace;
+}
+
+.signup-text {
+    font-family: monospace;
+    color: #00cfc7;
+    font-weight: bold;
+}
+
+.signup-input {
+    background-color: #0d1117; /* Darker input background */
+    color: #ffffff; /* White text */
+}
+
+.signup-input-right {
+    background-color: #0d1117; /* Darker input background */
+    color: #ffffff; /* White text */
+    float: right;
+}
+
+canvas {
+    display: block;
+    vertical-align: bottom;
+}
+
+#particles-js {
+    width: 100%;
+    height: 100%;
+    background-color: #2e0e33;
+    background: linear-gradient(270deg, #2e0e33, #121212, #283747, #404040, #663399);
+    background-size: 1000% 1000% !important;
+    -webkit-animation: changeColors 30s ease infinite;
+    -moz-animation: changeColors 30s ease infinite;
+    -o-animation: changeColors 30s ease infinite;
+    animation: changeColors 30s ease infinite;
+    display: block;
+}
+
+@-webkit-keyframes changeColors {
+    0% {
+        background-position: 0 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+.panel {
+    font-size: 1.3em;
+    position: absolute;
+    z-index: 10;
+    width: 100vw; /* Full viewport width */
+    max-width: 400px;
+    height: 250px;
+    background-color: #24292f; /* Dark gray background */
+    color: #c9d1d9; /* Light gray text */
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: thin solid #202639;
+}
+
+.btn-dark-custom {
+    color: #c3c5e7;
+    background: none;
+    float: right;
+    border-radius: 8px;
+    position: absolute;
+    bottom: 10px;
+    margin-right: 10px;
+    width: 90% !important;
+}
+
+.validation-issue {
+    color: #ff9999; font-size: smaller;
+}
