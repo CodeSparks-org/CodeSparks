@@ -28,4 +28,4 @@ We welcome contributions! If you're passionate about tech education and want to 
 - Suggest Improvements: Share your ideas and suggestions for enhancing the platform.
 - Create Pull Requests: If you have coding skills, contribute bug fixes or new features through pull requests.
 
-And of course [Suggest your ideas!](https://github.com/CodeSparks-org/CodeSparks/issues)
+And of course suggest your ideas [in issues](https://github.com/CodeSparks-org/CodeSparks/issues) or on [codesparks.org](https://codesparks.org/Sparks/Create?category=Idea)
