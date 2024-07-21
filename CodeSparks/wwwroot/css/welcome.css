@@ -1,9 +1,7 @@
-﻿body {
-    font-family: var(--fontStack-monospace, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace) !important;
-}
-
-.signup-text-prompt {
+﻿.signup-text {
     font-family: monospace; /* Monospace font for prompts */
+    color: #00cfc7;
+    font-weight: bold;
 }
 
 .signup-input {
@@ -31,7 +29,7 @@ canvas {
     font-size: 1.3em;
     position: absolute;
     z-index: 10;
-    width: 90%;
+    width: 100vw; /* Full viewport width */
     max-width: 400px;
     height: 250px;
     background-color: #24292f; /* Dark gray background */
@@ -44,16 +42,8 @@ canvas {
     box-sizing: border-box;
 }
 
-@media (max-width: 576px) {
-    .panel {
-        width: 95%;
-        padding: 20px;
-    }
-}
-
 .btn-dark-custom {
-    color: #637597;
+    color: #737597;
     background: none;
-    border-color: white;
     float: right;
 }
