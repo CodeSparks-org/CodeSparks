@@ -18,7 +18,7 @@
 <section class="call-to-action text-center py-5 bg-light">
     <h2>Suggest an idea</h2>
     <p>You can always suggest an idea by creating a special Spark ✨</p>
-    <a href="/sparks/create" class="btn btn-warning mt-3" role="button">
+    <a asp-controller="Sparks" asp-action="Create" asp-route-category="@SparkCategory.Idea" class="btn btn-warning mt-3" role="button">
         Ignite the <b>Idea</b> Spark
     </a>
 </section>

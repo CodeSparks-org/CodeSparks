@@ -40,7 +40,7 @@ namespace CodeSparks.Data.Models
     {
         Uncategorized = 0,
         Idea = 1,
-        CodeSparksTask = 2,
+        Coding = 2,
         Learning = 3,
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CodeSparks.Data;
 using CodeSparks.Data.Models;
+using System.Collections;
 
 namespace CodeSparks.Controllers
 {
@@ -46,10 +47,14 @@ namespace CodeSparks.Controllers
         }
 
         // GET: Sparks/Create
-        public IActionResult Create()
+        public IActionResult Create(SparkCategory? category = null)
         {
-            var newSpark = new Spark { IsPublic = true, Name = "", Description = "" };
-            return View(newSpark);
+            var spark = new Spark { IsPublic = true, Name = "", Description = "" };
+            if (category.HasValue)
+            {
+                spark.Category = category.Value;
+            }
+            return View(spark);
         }
 
         // POST: Sparks/Create

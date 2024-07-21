@@ -4,24 +4,43 @@
 @{
     ViewData["Title"] = "New Spark";
 }
-<div class="row">
+
+<style>
+    .no-stars { /* Style the middle column */
+        background-color: white; /* Set a solid background color for the middle column */
+    }
+
+    select.pre-selected {
+        border-color: #0d6efd; /* Example: Bootstrap's primary color */
+        box-shadow: 0 0 0 0.25rem rgba(255, 255, 0, 0.25); /* Optional: subtle glow */
+    }
+</style>
+
+<div class="row" style="background-image: url('/background.svg'); background-size: cover;">
     <div class="col-md-3">
         <div class="mb-3">
             <a asp-action="Index"><< Back to all sparks</a>
         </div>
     </div>
-    <div class="col-md-6">
-        <h2>Create a New Spark</h2>
+    <div class="col-md-6 no-stars">
+        <h2>Create a New Spark 🎆</h2>
+        <p class="form-text text-muted mb-3">
+            A Spark is a small tech task or idea, that helps you to level-up your tech skills. It can be something to find, learn, code, etc.
+            For example: Read a tech article, Solve algorithm problem, Pass a test.
+        </p>
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3">
-                <label asp-for="Name" class="form-label">Name</label>
+                <label asp-for="Name" class="form-label fw-bold">Name</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+                <small class="form-text text-muted">
+                    Choose a name that represents the goal of your Spark (e.g., 'Deploy web site' 'Learn Python basics').
+                </small>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Description" class="form-label">Description</label>
+                <label asp-for="Description" class="form-label fw-bold">Description</label>
                 <textarea asp-for="Description" class="form-control" rows="5"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
@@ -38,16 +57,22 @@
 
             <div class="mb-3">
                 <label asp-for="Category" class="form-label">Category</label>
-                <select asp-for="Category" asp-items="Html.GetEnumSelectList<SparkCategory>()" class="form-select"></select>
+                <select asp-for="Category" asp-items="Html.GetEnumSelectList<SparkCategory>()"
+                    class="form-select @(Model.Category != SparkCategory.Uncategorized ? "pre-selected" : "")">
+                </select>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary float-end" />
             </div>
         </form>
     </div>
+    <div class="col-md-3"></div>
 </div>
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
