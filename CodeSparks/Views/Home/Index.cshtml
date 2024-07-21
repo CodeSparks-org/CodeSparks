@@ -1,13 +1,7 @@
-﻿@{
-    var sparks = new List<(string, string)>
-    {
-        new ("Fake: Add Sparks to database", "Make it possible to have a dynamic list of sparks"),
-        new ("Fake: Add Sparks to database", "Make it possible to have a dynamic list of sparks"),
-        new ("Fake: Flow to add new sparks", "Make it possible to add new tech sparks, so they can be tracked and implemented"),
-        new ("Fake: Flow to add new sparks", "Make it possible to add new tech sparks, so they can be tracked and implemented"),
-        new ("Fake: Flow to add new sparks", "Make it possible to add new tech sparks, so they can be tracked and implemented"),
-        new ("Fake: Put sparks into practice", "Add ability to change status for tech sparks, which are done"),
-    };
+﻿@using CodeSparks.Data.Models
+@model List<Spark>
+@{
+ 
 }
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -17,9 +11,8 @@
 
     <h2>Active Sparks 🎆</h2>
     <div class="row">
-        @for (int i = 0; i < 6; i++) //hardcoded for now
+        @foreach(var spark in Model)
         {
-            var spark = sparks[i];
             <div class="card-deck col-md-3">
                 <div class="card">
                     <a href="home/about" class="stretched-link">  </a>
@@ -36,13 +29,18 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">@spark.Item1</h5>
+                        <h5 class="card-title">@spark.Name</h5>
                         <p class="card-text">
-                            @spark.Item2
+                            @spark.Description
                         </p>
                     </div>
-                    <div class="card-footer">
+                    @* <div class="card-footer">
                         <small class="text-muted">Last updated 3 mins ago</small>
+                    </div> *@
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            @spark.Status, @spark.Category
+                        </small>
                     </div>
                 </div>
             </div>

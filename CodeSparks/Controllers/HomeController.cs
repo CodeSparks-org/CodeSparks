@@ -1,21 +1,27 @@
+using CodeSparks.Data;
 using CodeSparks.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace CodeSparks.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly AppDbContext _db;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(AppDbContext context, ILogger<HomeController> logger)
         {
+            _db = context;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var sparks = await _db.Sparks.Where(s => s.IsPublic).ToListAsync();
+            
+            return View(sparks);
         }
 
         public IActionResult Privacy()

@@ -1,23 +1,46 @@
-﻿
+﻿@using CodeSparks.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+
+<style>
+
+    body::before {
+        content: "";
+        background-image: url("/img/coding_bg1.jpg");
+        opacity: 0.2; /* Adjust this value (0.0 - 1.0) to control opacity */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1; /* Place the pseudo-element behind the content */
+    }
+</style>
 
 <div class="container text-center">
-    <p>
-        CodeSparks is a collaborative platform for software engineers
-        that provides a toolbox with technical ideas together with an environment which helps to grow and turn those ideas into reality.
-        This is done through collaboration with people, tools, and AI
-        and is designed to empower engineers with their technical journey
-        by providing an open and engaging place that helps to grow.
-    </p>
-    <p>
-        You can think of CodeSparks as GitHub on steroids or as AI-Powered Development Environment.
-    </p>
+    @* <img src="~/img/heroimage.jpg" alt="CodeSparks Hero Image" class="img-fluid mb-4"> *@
+    <h2>Speedway to a bright future, One Spark at a Time</h2>
+    <div style="font-weight:bolder" class="mt-5">
+        <h4>
+            CodeSparks helps to move tech ideas from concept to reality.
+        </h4>
+        <h4>
+            It's a collaborative platform, which equips you with the tools, resources, and AI assistance you need to
+            streamline your workflow, accelerate your learning, and connect with a global community of innovators.
+        </h4>
+        @* <h4>
+            Think of it as GitHub on steroids, fueled by AI to make your development journey faster, smoother, and more rewarding.
+        </h4> *@
+    </div>
+    @if (!SignInManager.IsSignedIn(User))
+    {
+        <a asp-area="Identity" asp-page="/Account/SignUpRequest" class="btn btn-primary mt-4">Level up your skills</a>
+    }
 </div>
 
-
-<div class="mt-5">
+<div class="mt-5" style="font-weight:bolder">
     <p>
-        Work is actively in progress
-        <a target="_blank" href="https://github.com/CodeSparks-org/CodeSparks">in the Github repository</a>.
+        Work is actively in progress <i class="bi bi-github"></i> <a target="_blank" href="https://github.com/CodeSparks-org/CodeSparks">in the Github repository</a>.
     </p>
-    <p>Discssion is in <a target="_blank" href="https://t.me/codesparks">this Telegram chat</a>.
+    <p>Connect with us in <i class="bi bi-telegram"></i> <a target="_blank" href="https://t.me/codesparks">this Telegram chat</a>.</p>
 </div>
