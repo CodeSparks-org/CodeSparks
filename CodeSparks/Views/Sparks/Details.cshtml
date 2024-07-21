@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@model CodeSparks.Data.Models.Spark
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> <span>|</span>
+                }
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>@Html.DisplayFor(model => model.Name)</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IsPublic)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IsPublic)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Category)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Category)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+﻿@using CodeSparks.Data.Models
+@model CodeSparks.Data.Models.Spark
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="row">
+    <div class="col-md-3">
+        <div class="mb-3">
+            <a asp-action="Index"><< Back to all sparks</a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h2>Create a New Spark</h2>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Status" class="form-label">Status</label>
+                <select asp-for="Status" asp-items="Html.GetEnumSelectList<SparkStatus>()" class="form-select"></select>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" asp-for="IsPublic" class="form-check-input" />
+                <label asp-for="IsPublic" class="form-check-label">Make this Spark public?</label>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Category" class="form-label">Category</label>
+                <select asp-for="Category" asp-items="Html.GetEnumSelectList<SparkCategory>()" class="form-select"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" style="float:right;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

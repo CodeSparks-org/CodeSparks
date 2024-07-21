@@ -29,12 +29,12 @@ namespace CodeSparks.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Connect()
         {
             return View();
         }
 
-        public IActionResult CreateSpark()
+        public IActionResult About()
         {
             return View();
         }
