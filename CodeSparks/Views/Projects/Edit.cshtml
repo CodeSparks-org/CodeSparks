@@ -1,0 +1,47 @@
+﻿@model CodeSparks.Data.Models.Project
+
+@{
+    ViewData["Title"] = "Edit Project";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="mb-3">
+            <a asp-action="Index"><< Back to all projects</a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h2>Edit Project</h2>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Author" class="control-label"></label>
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RepositoryUrl" class="control-label"></label>
+                <input asp-for="RepositoryUrl" class="form-control" />
+                <span asp-validation-for="RepositoryUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <input type="submit" value="Save" class="btn btn-primary float-end" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

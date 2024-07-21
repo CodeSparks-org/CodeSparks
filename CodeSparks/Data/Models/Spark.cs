@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CodeSparks.Data.Models
 {
@@ -22,6 +23,10 @@ namespace CodeSparks.Data.Models
         public bool IsPublic { get; set; }
         
         public SparkCategory Category { get; set; }
+
+        [ForeignKey("Project")]
+        public long? ProjectId { get; set; }
+        public virtual Project? Project { get; set; }
     }
 
     public enum SparkStatus

@@ -9,6 +9,7 @@ namespace CodeSparks.Data
     {
         public DbSet<AppMetadata> AppMetadata { get; set; }
         public DbSet<Spark> Sparks { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
