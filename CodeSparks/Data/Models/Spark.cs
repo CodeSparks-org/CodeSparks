@@ -29,7 +29,7 @@ namespace CodeSparks.Data.Models
         public virtual Project? Project { get; set; }
 
         [Url]
-        [MaxLength(100)]
+        [MaxLength(250)]
         public string? Url { get; set; }
     }
 
