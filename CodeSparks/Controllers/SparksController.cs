@@ -21,11 +21,29 @@ namespace CodeSparks.Controllers
         }
 
         // GET: Sparks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(SparkCategory? category = null)
         {
-            return View(await _context.Sparks
-                .Where(s => s.IsPublic)
-                .ToListAsync());
+            IQueryable<Spark> sparks = _context.Sparks.Where(s => s.IsPublic);
+            if (category != null)
+            {
+                sparks = sparks.Where(s => s.Category == category);
+            }
+
+            var model = await sparks.ToListAsync();
+            return View(model);
+        }
+
+        // GET: Sparks
+        public async Task<IActionResult> List(SparkCategory? category = null)
+        {
+            IQueryable<Spark> sparks = _context.Sparks.Where(s => s.IsPublic);
+            if (category != null)
+            {
+                sparks = sparks.Where(s => s.Category == category);
+            }
+
+            var model = await sparks.ToListAsync();
+            return View(model);
         }
 
         // GET: Sparks/Details/5
@@ -68,7 +86,7 @@ namespace CodeSparks.Controllers
             {
                 _context.Add(spark);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(List));
             }
             return View(spark);
         }
@@ -119,7 +137,7 @@ namespace CodeSparks.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(List));
             }
             return View(spark);
         }
@@ -154,7 +172,7 @@ namespace CodeSparks.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(List));
         }
 
         private bool SparkExists(long id)

@@ -46,5 +46,6 @@ namespace CodeSparks.Data.Models
         Idea = 1,
         Coding = 2,
         Learning = 3,
+        Beginner = 4,
     }
 }
