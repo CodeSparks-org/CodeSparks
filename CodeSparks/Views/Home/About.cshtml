@@ -1,65 +1,30 @@
-﻿@using CodeSparks.Data.Models
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<AppUser> SignInManager
+﻿
 
-<div class="container text-center">
-    @* <img src="~/img/heroimage.jpg" alt="CodeSparks Hero Image" class="img-fluid mb-4"> *@
-    <h2>Speedway to a bright future, One Spark at a Time</h2>
-    <div style="font-weight:bolder" class="mt-5">
-        <h4>
-            CodeSparks helps to move tech ideas from a concept to reality.
-        </h4>
-        <h4>
-            It's a collaborative platform, which equips you with the tools, resources, and AI assistance you need to
-            streamline your workflow, accelerate your learning, and connect with a global community of innovators.
-        </h4>
-        @* <h4>
-            Think of it as GitHub on steroids, fueled by AI to make your development journey faster, smoother, and more rewarding.
-        </h4> *@
+<section class="how-it-works container my-5">
+    <h2 class="text-center mb-4">What is CodeSparks</h2>
+    <div class="row">
+        <div class="col-md-9">
+            <p><b>codesparks.org</b> is a platform designed to ignite your passion for tech learning. Whether you're a newbie or a seasoned pro, we offer interactive challenges and projects that make learning fun and efficient.</p>
+
+            <p>Tackle bite-sized tasks, which we call Sparks, sharpen your skills, and track your progress. Join our vibrant community of learners and level up your tech abilities, one spark at a time.</p>
+
+            <h4 class="mt-2">Ready to light the spark?</h4>
+            <p>Dive in and explore our curated collection of beginner-friendly Sparks below!</p>
+
+        </div>
+
+        <div class="col-md-3">
+            <img src="~/img/coding_person.jpg" style="max-height:200px" class="" alt="Person Coding on a Computer">
+        </div>
     </div>
-    @if (!SignInManager.IsSignedIn(User))
-    {
-        <a asp-area="Identity" asp-page="/Account/SignUpRequest" class="btn btn-primary mt-4">Level up your skills</a>
-    }
-</div>
+</section>
 
-<div class="mt-5" style="font-weight:bolder">
-    <p>
-        Work is actively in progress <i class="bi bi-github"></i> <a target="_blank" href="https://github.com/CodeSparks-org/CodeSparks">in the Github repository</a>.
-    </p>
-    <p>Connect with us in <i class="bi bi-telegram"></i> <a target="_blank" href="https://t.me/codesparks">this Telegram chat</a>.</p>
-</div>
-
-
-<section class="features container m3-5">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card h-100">
-                <img src="~/img/quests_banner.jpg" class="card-img-top" alt="Coding Challenge Illustration">
-                <div class="card-body">
-                    <h5 class="card-title">Engaging Quests</h5>
-                    <p class="card-text">Tackle exciting coding tasks and test your abilities in a fun and interactive environment.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <img src="~/img/rewards_banner.jpg" class="card-img-top" alt="Badge Illustration">
-                <div class="card-body">
-                    <h5 class="card-title">Earn Rewards & Recognition</h5>
-                    <p class="card-text">Master new concepts, unlock badges, and showcase your progress as you become a coding master.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <a href="/home/connect" class="stretched-link">  </a>
-                <img src="~/img/community.jpg" class="card-img-top" alt="Community Illustration">
-                <div class="card-body nolinkstyle">
-                    <h5 class="title">Connect with others</h5>
-                    <p class="card-text nolinkstyle">Join a supportive community, share your experiences, and learn from each other.</p>
-                </div>
-            </div>
-        </div>
+<section>
+    <div class="mt-5" style="font-weight:bolder">
+        <p>
+            Work is actively in progress <i class="bi bi-github"></i>
+            <a target="_blank" href="https://github.com/CodeSparks-org/CodeSparks">in the Github repository</a>.
+            Also, you can connect with us in <i class="bi bi-telegram"></i> <a target="_blank" href="https://t.me/codesparks">this Telegram chat</a>.
+        </p>
     </div>
 </section>

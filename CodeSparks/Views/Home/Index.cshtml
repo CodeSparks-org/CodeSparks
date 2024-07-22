@@ -1,35 +1,58 @@
-﻿@using CodeSparks.Data.Models
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+
 @model List<Spark>
 @{
     var starters = new List<Spark>
     {
         //new Spark { Name = "First Spark", Description = "Try me!", Id = -1 },
+        //TODO: remove this line and create those sparks in database
     };
 }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<section class="container text-center">
+    <div style="font-weight:bolder" class="mb-4">
+        <h4>
+            CodeSparks helps to move tech ideas from a concept to reality.
+        </h4>
+    </div>
+</section>
 
-<section class="how-it-works container my-5">
-    <h2 class="text-center mb-4">What is CodeSparks</h2>
-    <div class="row">
-        <div class="col-md-9">
-            <p><b>codesparks.org</b> is a platform designed to ignite your passion for tech learning. Whether you're a newbie or a seasoned pro, we offer interactive challenges and projects that make learning fun and efficient.</p>
-
-            <p>Tackle bite-sized tasks, which we call Sparks, sharpen your skills, and track your progress. Join our vibrant community of learners and level up your tech abilities, one spark at a time.</p>
-
-            <h4 class="mt-2">Ready to light the spark?</h4>
-            <p>Dive in and explore our curated collection of beginner-friendly Sparks below!</p>
-
+<section class="features container m3-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/img/quests_banner.jpg" class="card-img-top" alt="Coding Challenge Illustration">
+                <div class="card-body">
+                    <h5 class="card-title">Engaging Quests</h5>
+                    <p class="card-text">Tackle exciting coding tasks and test your abilities in a fun and interactive environment.</p>
+                </div>
+            </div>
         </div>
-
-        <div class="col-md-3">
-            <img src="~/img/coding_person.jpg" style="max-height:200px" class="" alt="Person Coding on a Computer">
+        <div class="col">
+            <div class="card h-100">
+                <a asp-area="Identity" asp-page="/Account/SignUpRequest" class="stretched-link">  </a>
+                <img src="~/img/level_up_tech.jpg" class="card-img-top" alt="Badge Illustration">
+                <div class="card-body">
+                    <h5 class="card-title">Level-up your skills</h5>
+                    <p class="card-text">Master new concepts, try your skills on practice, and showcase your progress as you become a tech guru.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <a href="/home/connect" class="stretched-link">  </a>
+                <img src="~/img/community.jpg" class="card-img-top" alt="Community Illustration">
+                <div class="card-body nolinkstyle">
+                    <h5 class="title">Connect with tech community</h5>
+                    <p class="card-text nolinkstyle">Join a supportive community, share your experiences, and learn from each other.</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-
-<div class="container">
+<div class="container mt-5">
     <h2>❇️ Starter Sparks</h2>
     <div class="row mb-3">
         @if(starters.Count == 0)
