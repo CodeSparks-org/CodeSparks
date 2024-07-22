@@ -20,7 +20,6 @@ namespace CodeSparks.Controllers
             _context = context;
         }
 
-        // GET: Sparks
         public async Task<IActionResult> Index(SparkCategory? category = null)
         {
             IQueryable<Spark> sparks = _context.Sparks.Where(s => s.IsPublic);
@@ -33,7 +32,15 @@ namespace CodeSparks.Controllers
             return View(model);
         }
 
-        // GET: Sparks
+        public async Task<IActionResult> Beginner()
+        {
+            IQueryable<Spark> sparks = _context.Sparks
+                .Where(s => s.IsPublic && s.Category == SparkCategory.Beginner);
+
+            var model = await sparks.ToListAsync();
+            return View(model);
+        }
+
         public async Task<IActionResult> List(SparkCategory? category = null)
         {
             IQueryable<Spark> sparks = _context.Sparks.Where(s => s.IsPublic);

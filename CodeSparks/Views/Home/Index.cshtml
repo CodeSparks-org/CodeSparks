@@ -22,6 +22,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
             <div class="card h-100">
+                <a asp-controller="Sparks" asp-action="Index" class="stretched-link">  </a>
                 <img src="~/img/quests_banner.jpg" class="card-img-top" alt="Coding Challenge Illustration">
                 <div class="card-body">
                     <h5 class="card-title">Engaging Quests</h5>
@@ -41,7 +42,7 @@
         </div>
         <div class="col">
             <div class="card h-100">
-                <a href="/home/connect" class="stretched-link">  </a>
+                <a asp-controller="Home" asp-action="Connect" class="stretched-link">  </a>
                 <img src="~/img/community.jpg" class="card-img-top" alt="Community Illustration">
                 <div class="card-body nolinkstyle">
                     <h5 class="title">Connect with tech community</h5>
@@ -53,93 +54,39 @@
 </section>
 
 <div class="container mt-5">
-    <h2>❇️ Starter Sparks</h2>
-    <div class="row mb-3">
-        @if(starters.Count == 0)
-        {
-            <p>No starter sparks for now, the feature is going to be ready in a couple of days</p>
-        }
-        @foreach (var spark in starters)
-        {
-            <div class="card-deck col-md-3">
-                <div class="card mb-1">
-                    <a href="sparks/details/@spark.Id" class="stretched-link">  </a>
-                    @* <img class="card-img-top" src="..." alt="Card image cap"> *@
-                    <div class="card">
-                        <div>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">@spark.Name</h5>
-                        <p class="card-text">
-                            @spark.Description
-                        </p>
-                    </div>
-                    @* <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-                </div> *@
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            @spark.Status, @spark.Category
-                        </small>
-                    </div>
-                </div>
+    <section id="explore-projects">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Explore Projects</h2>
+                <p>Discover a wide range of exciting projects and collaborate with other developers.</p>
+                <a asp-controller="Projects" asp-action="Index" class="btn btn-success">Explore Projects</a>
             </div>
-        }
-    </div>
+        </div>
+    </section>
 
-    @if(Model.Count > 0)
-    {
-        <h2>🎆 Active Sparks</h2>
-    }
+    <section id="start-activity">
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <h2>Share your idea or task</h2>
+                <p>Create your own task and build a community around it.</p>
+                <a asp-controller="Sparks" asp-action="Create" class="btn btn-warning">＋ Ignite your Spark *</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="learn-more">
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <h2>Learn More</h2>
+                <p>Feel free to learn more
+                    <a asp-controller="Home" asp-action="About" class="">About Code Sparks</a>.
+                </p>
+            </div>
+        </div>
+    </section>
     
-    <div class="row mb-3">
-        @foreach (var spark in Model)
-        {
-            <div class="card-deck col-md-3">
-                <div class="card mb-1">
-                    <a href="sparks/details/@spark.Id" class="stretched-link">  </a>
-                    @* <img class="card-img-top" src="..." alt="Card image cap"> *@
-                    <div class="card">
-                        <div>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">@spark.Name</h5>
-                        <p class="card-text">
-                            @spark.Description
-                        </p>
-                    </div>
-                    @* <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-                </div> *@
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            @spark.Status, @spark.Category
-                        </small>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-
-    <a asp-controller="Sparks" asp-action="Create" class="btn btn-warning mt-3">＋ Ignite your own Spark *</a>
-    <a asp-controller="Projects" asp-action="Index" class="btn btn-success mt-3">Explore Projects</a>
-    <a asp-controller="Home" asp-action="About" class="btn btn-secondary mt-3">Learn More</a>
+    
+    
 </div>
 
 
