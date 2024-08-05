@@ -1,0 +1,28 @@
+﻿@model System.Collections.Generic.List<AppUser>
+
+<h1>User List</h1>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No users found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.UserName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
