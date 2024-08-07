@@ -11,6 +11,10 @@ namespace CodeSparks.Data
         public DbSet<Spark> Sparks { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Badge> Badges { get; set; }
+        public DbSet<Quest> Quests { get; set; }
+        public DbSet<QuestProgress> QuestProgresses { get; set; }
+        public DbSet<Skill> Skills { get; set; }
+        public DbSet<UserSkill> UserSkills { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)

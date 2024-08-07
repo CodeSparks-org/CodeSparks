@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SkillViewModel>
+@{
+    ViewData["Title"] = "Skills";
+}
+
+<div class="container mt-4">
+    <div class="mb-4">
+        <h2 class="mb-0">Skills</h2>
+        <p class="text-muted">Explore and enhance your technical skills to track your progress.</p>
+    </div>
+    <div id="cardView" class="row">
+        @foreach (var skill in Model)
+        {
+            <div class="col-md-3">
+                <div class="card mb-3 border-primary shadow-sm">
+                    <div class="card-body position-relative">
+                        <span class="stars float-end" style="--rating: @skill.Rating;" aria-label="Rating of this product is @skill.Rating out of 5."></span>
+                        <h5 class="card-title">@skill.Name</h5>
+                        <p class="card-text">@skill.Description</p>
+                        @* <div class="progress mb-2">
+                            <div class="progress-bar" role="progressbar" style="width:@skill.Progress%;" aria-valuenow="@skill.Progress" aria-valuemin="0" aria-valuemax="100">@skill.Progress%</div>
+                        </div> *@
+                        <a asp-action="Details" asp-route-id="@skill.Id" class="btn btn-outline-info btn-block float-end">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section HeadStyles {
+    <style>
+        .stars {
+            --rating-percent: calc(var(--rating) / 5 * 100%);
+            display: inline-block;
+            font-size: 1.5rem;
+            font-family: "Arial", sans-serif;
+            line-height: 1;
+            background: linear-gradient(90deg, gold var(--rating-percent), white var(--rating-percent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+            filter: drop-shadow(0 0 1px black);
+        }
+
+            .stars::before {
+                content: "★★★★★";
+            }
+
+        .progress-bar {
+            background-color: #007bff;
+        }
+    </style>
+}

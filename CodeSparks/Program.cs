@@ -3,6 +3,7 @@ using CodeSparks.Data.Models;
 using CodeSparks.Data.Seed;
 using CodeSparks.Services.Repositories;
 using CodeSparks.Temp;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,21 @@ if (connectionString == null)
 builder.Services.AddDbContext<AppDbContext>(options =>
     //options.UseSqlServer(connectionString));
     options.UseNpgsql(connectionString));
+//builder.Services.AddDbContext<DataProtectionKeyContext>(options =>
+//            options.UseNpgsql(connectionString));
+//builder.Services.AddDataProtection()
+//    .PersistKeysToDbContext<DataProtectionKeyContext>()
+//    .SetApplicationName("iqtify.com");
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options =>
+//    {
+//        options.Cookie.HttpOnly = true;
+//        options.ExpireTimeSpan = TimeSpan.FromDays(30);
+//        options.LoginPath = "/Identity/Account/Login";
+//        options.LogoutPath = "/Identity/Account/Logout";
+//        options.SlidingExpiration = true;
+//    });
+
 builder.Services.AddIdentity<AppUser, IdentityRole<long>>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole<long>>()
     .AddUserManager<UserManager<AppUser>>()
@@ -78,8 +94,12 @@ app.UseDeveloperExceptionPage();
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
