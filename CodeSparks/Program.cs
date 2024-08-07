@@ -1,6 +1,7 @@
 using CodeSparks.Data;
 using CodeSparks.Data.Models;
 using CodeSparks.Data.Seed;
+using CodeSparks.Services.Repositories;
 using CodeSparks.Temp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -34,7 +35,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddHealthChecks();
 builder.Services.AddCoreAdmin("Admin");
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 builder.Services.AddTransient<IEmailSender, InMemoryEmailSender>(); // Replace with your implementation
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBadgeRepository, BadgeRepository>();
 
 var app = builder.Build();
 app.Logger.LogInformation("Application starting up");

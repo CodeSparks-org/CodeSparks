@@ -11,16 +11,18 @@ else
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Username</th>
+                <th>Level</th>
+                <th>Profile</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var user in Model)
             {
                 <tr>
-                    <td>@user.Id</td>
                     <td>@user.UserName</td>
+                    <td>@user.Level</td>
+                    <td><a href="@Url.Page("/Profile", new { userName = user.UserName })">View Profile</a></td>
                 </tr>
             }
         </tbody>

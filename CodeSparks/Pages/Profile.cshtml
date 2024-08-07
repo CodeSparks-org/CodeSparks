@@ -1,0 +1,28 @@
+﻿@page "{userName}"
+@model CodeSparks.Pages.ProfileModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h2>@Model.DisplayName's Profile</h2>
+
+<p>Level: @Model.AppUser.Level</p>
+<p>XP: @Model.AppUser.XP / @Model.XPForNextLevel</p>
+<div class="progress">
+    <div class="progress-bar" style="width:@Model.XPProgressPercentage%"></div>
+</div>
+
+<h3>Badges</h3>
+<ul>
+    @if (Model.Badges != null && Model.Badges.Any())
+    {
+        @foreach (var badge in Model.Badges)
+        {
+            <li>@badge.Name: @badge.Description</li>
+        }
+    }
+    else
+    {
+        <li>No badges earned yet.</li>
+    }
+</ul>

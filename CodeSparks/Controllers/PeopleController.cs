@@ -1,25 +1,22 @@
-﻿using CodeSparks.Data;
+﻿using CodeSparks.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CodeSparks.Controllers
 {
     public class PeopleController : Controller
     {
-        private readonly AppDbContext _db;
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUserRepository _userRepository;
 
-        public PeopleController(AppDbContext context, ILogger<HomeController> logger)
+        public PeopleController(IUserRepository userRepository)
         {
-            _db = context;
-            _logger = logger;
+            _userRepository = userRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            var model = await _db.Users.ToListAsync();
+            var allUsers = await _userRepository.GetAllUsers();
 
-            return View(model);
+            return View(allUsers);
         }
     }
 }
