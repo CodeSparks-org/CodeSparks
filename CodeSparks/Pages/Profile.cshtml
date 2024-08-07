@@ -1,28 +1,79 @@
 ﻿@page "{userName}"
 @model CodeSparks.Pages.ProfileModel
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Profile";
 }
 
-<h2>@Model.DisplayName's Profile</h2>
-
-<p>Level: @Model.AppUser.Level</p>
-<p>XP: @Model.AppUser.XP / @Model.XPForNextLevel</p>
-<div class="progress">
-    <div class="progress-bar" style="width:@Model.XPProgressPercentage%"></div>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Profile Sidebar -->
+        <div class="col-md-3">
+            <div class="card mb-3">
+                <div class="card-body text-center">
+                    <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Profile Picture">
+                    <h3 class="card-title">@Model.DisplayName</h3>
+                    <p class="card-text">Level: @Model.AppUser.Level</p>
+                    <p class="card-text">XP: @Model.AppUser.XP / @Model.XPForNextLevel</p>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width:@Model.XPProgressPercentage%" aria-valuenow="@Model.XPProgressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h5 class="mt-4">Achievements</h5>
+                    <ul class="list-group">
+                        @if (Model.Badges != null && Model.Badges.Any())
+                        {
+                            @foreach (var badge in Model.Badges)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>
+                                        <h6 class="mb-1">@badge.Name</h6>
+                                        <p class="mb-1">@badge.Description</p>
+                                    </span>
+                                    <span class="badge badge-primary badge-pill">Badge Image</span>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="list-group-item">No achievements earned yet.</li>
+                        }
+                    </ul>
+                    <h5 class="mt-4">Links</h5>
+                    <p class="card-text"><a href="https://www.linkedin.com/in/username" target="_blank">LinkedIn</a></p>
+                    <p class="card-text"><a href="https://github.com/username" target="_blank">GitHub</a></p>
+                </div>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <!-- Bio Section -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p class="card-text">This is a brief bio about the user. It gives an overview of who they are, their interests, and any other relevant information.</p>
+                </div>
+            </div>
+            <!-- Recent Activity Section -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Recent Activity</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">Completed the "Introduction to Git" challenge.</li>
+                        <li class="list-group-item">Earned the "JavaScript Novice" badge.</li>
+                        <li class="list-group-item">Reached level 5.</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Projects Section -->
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Projects</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">Project 1: Description of project 1.</li>
+                        <li class="list-group-item">Project 2: Description of project 2.</li>
+                        <li class="list-group-item">Project 3: Description of project 3.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<h3>Badges</h3>
-<ul>
-    @if (Model.Badges != null && Model.Badges.Any())
-    {
-        @foreach (var badge in Model.Badges)
-        {
-            <li>@badge.Name: @badge.Description</li>
-        }
-    }
-    else
-    {
-        <li>No badges earned yet.</li>
-    }
-</ul>
