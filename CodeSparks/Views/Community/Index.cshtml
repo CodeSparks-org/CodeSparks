@@ -1,12 +1,22 @@
 ﻿@model System.Collections.Generic.List<AppUser>
 
+<section class="container mt-3">
+    <div class="row">
+        <div class="col-md-3">
+            <h2>🌐 Community</h2>
+            <a class="btn btn-success m-3" asp-area="Identity" asp-page="/Account/SignUpRequest">Join CodeSparks</a>
+        </div>
+        <div class="col-md-9">
+            <p class="lead text-muted">
+                The Code Sparks Community is a vibrant network of passionate developers, learners, and innovators. Here, members can connect, collaborate, and share their knowledge. Whether you’re a seasoned pro or just starting out, our community is the perfect place to grow together.
+            </p>
+        </div>
+    </div>
+</section>
+<hr>
+
 <section>
-    <div class="container mt-4">
-        <h2 class="mb-4">Code Sparks Community</h2>
-        <p class="text-muted">Our community is full of passionate developers, learners, and innovators. Explore the profiles of our members, see their achievements, and get inspired by their progress.</p>
-
-        <a href="/Join" class="btn btn-success mb-4">Join the Community</a>
-
+    <div class="container">
         @if (Model == null || !Model.Any())
         {
             <div class="alert alert-warning">No users found. Be the first to join and make your mark!</div>

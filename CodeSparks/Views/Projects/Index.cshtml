@@ -4,7 +4,23 @@
     ViewData["Title"] = "Projects";
 }
 
-<div class="container mt-4">
+<section class="container mt-3">
+    <div class="row">
+        <div class="col-md-3">
+            <h2>🗂️ Projects</h2>
+            <a asp-action="Create" class="btn btn-primary m-2">Add a project
+        </div>
+        <div class="col-md-9">
+            <p class="lead text-muted">
+                Projects are the heart of Code Sparks, where ideas come to life. Explore open-source initiatives, contribute to ongoing developments, or start your own project. Our project hub is designed to inspire innovation and foster collaboration.
+            </p>
+        </div>
+    </div>
+</section>
+<hr>
+
+
+<div class="container mt-2">
     <div class="row">
         @foreach (var item in Model)
         {
@@ -29,11 +45,3 @@
         }
     </div>
 </div>
-
-<p class="mt-5">
-    Do you know a cool open-source project?
-</p>
-
-<p>
-    <a asp-action="Create" class="btn btn-primary">+ Add it to CodeSparks!</a>
-</p>
