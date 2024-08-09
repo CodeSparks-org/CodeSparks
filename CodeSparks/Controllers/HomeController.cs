@@ -29,11 +29,6 @@ namespace CodeSparks.Controllers
             return View();
         }
 
-        public IActionResult Connect()
-        {
-            return View();
-        }
-
         public IActionResult About()
         {
             return View();

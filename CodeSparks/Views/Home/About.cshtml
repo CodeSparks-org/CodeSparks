@@ -6,9 +6,23 @@
         <div class="col-md-9">
             <p><b>codesparks.org</b> is a platform designed to ignite a passion for tech learning. Whether you're a newbie or a seasoned pro, we offer interactive challenges and projects that make learning fun and efficient.</p>
 
-            <p>Tackle bite-sized tasks, which we call Sparks, sharpen your skills, and track your progress. Join our vibrant community of learners and level up your tech abilities, one spark at a time.</p>
+            <ul>
+                <li>
+                    Tackle bite-sized tasks, which we call <a asp-controller="Sparks" asp-action="Index">Sparks</a> ✨,
+                </li>
+                <li>
+                    Sharpen your <a asp-controller="Skills" asp-action="Index">Skills</a>, and track your progress,
+                </li>
+                <li>
+                    Contribute to open-source <a asp-controller="Projects" asp-action="Index">Projects</a>, which are registered on our platofrm,
+                </li>
+                <li>
+                    Join our vibrant <a asp-controller="Home" asp-action="Index">Community</a> of learners.
+                </li>
+            </ul>
+              and level up your tech abilities, one spark at a time.</p>
 
-            <h4 class="mt-2">Ready to light the spark?</h4>
+            <h4 class="mt-2">New here?</h4>
             <p>Dive in and explore our curated collection of <a asp-controller="Sparks" asp-action="Beginner">beginner-friendly Sparks!</a></p>
 
         </div>

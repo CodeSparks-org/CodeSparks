@@ -4,58 +4,36 @@
     ViewData["Title"] = "Projects";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Project Name
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RepositoryUrl)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="container mt-4">
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Author)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RepositoryUrl)
-                </td>
-                @if (User.IsInRole("Admin"))
-                {
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span>|</span>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                }
-            </tr>
+            <div class="col-md-4">
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Description</p>
+                        <p class="card-text"><strong>Author:</strong> @item.Author</p>
+                        <p class="card-text"><strong>Repository:</strong> <a href="@item.RepositoryUrl" target="_blank">@item.RepositoryUrl</a></p>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-block float-end">View Details</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="mt-2">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
 
-
-<p>
-    Do you know a cool open-source project? <a asp-action="Create">Add</a> it to CodeSparks!
+<p class="mt-5">
+    Do you know a cool open-source project?
 </p>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">+ Add a Project</a>
+    <a asp-action="Create" class="btn btn-primary">+ Add it to CodeSparks!</a>
 </p>

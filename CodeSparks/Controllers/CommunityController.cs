@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSparks.Controllers
 {
-    public class PeopleController : Controller
+    public class CommunityController : Controller
     {
         private readonly IUserRepository _userRepository;
 
-        public PeopleController(IUserRepository userRepository)
+        public CommunityController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
