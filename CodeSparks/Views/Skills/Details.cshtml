@@ -1,0 +1,43 @@
+﻿@model SkillViewModel
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="mb-4">@Model.Name</h2>
+            <p class="lead text-muted">@Model.Description</p>
+
+            <div class="mb-3">
+                @* <h5>Current Level: @Model.Level</h5> *@
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width:@Model.Progress%;" aria-valuenow="@Model.Progress" aria-valuemin="0" aria-valuemax="100">@Model.Progress%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+@*     <div class="row">
+        <div class="mb-4">
+            <h5>Related Quests</h5>
+            <ul class="list-group">
+                @foreach (var quest in Model.RelatedQuests)
+                {
+                    <li class="list-group-item">
+                        <a asp-action="Details" asp-controller="Quests" asp-route-id="@quest.Id">@quest.Title</a>
+                        <span class="badge bg-primary float-end">@quest.XPReward XP</span>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="col-md-4">
+            <h5>Suggested Skills</h5>
+            <ul class="list-group">
+                @foreach (var skill in Model.SuggestedSkills)
+                {
+                    <li class="list-group-item">
+                        <a asp-action="Details" asp-controller="Skills" asp-route-id="@skill.Id">@skill.Name</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div> *@
+</div>
