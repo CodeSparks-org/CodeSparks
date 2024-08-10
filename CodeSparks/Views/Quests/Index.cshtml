@@ -23,17 +23,17 @@
         @foreach (var quest in Model)
         {
             <div class="col-md-4">
-                <div class="card mb-3 border-primary shadow-sm">
+                <div class="card mb-3 shadow-sm">
                     <div class="card-body position-relative">
                         <span class="stars float-end" style="--rating: @quest.Rating;" aria-label="Rating of this product is @quest.Rating out of 5."></span>
                         <h5 class="card-title">@quest.Title</h5>
                         <p class="card-text">@quest.Description</p>
                         <p class="card-text"><strong>XP Reward:</strong> @quest.XPReward</p>
                         <p class="card-text"><strong>Status:</strong> @quest.Status</p>
-                        <div class="progress mb-2">
+                        <div class="progress mb-3">
                             <div class="progress-bar" role="progressbar" style="width:@quest.Progress%;" aria-valuenow="@quest.Progress" aria-valuemin="0" aria-valuemax="100">@quest.Progress%</div>
                         </div>
-                        <a asp-action="Start" asp-route-id="@quest.Id" class="btn btn-outline-success btn-block float-end">Start</a>
+                        <a asp-action="Start" asp-route-id="@quest.Id" class="btn btn-success btn-lg btn-block mx-auto d-block shadow">Start</a>
                     </div>
                 </div>
             </div>
