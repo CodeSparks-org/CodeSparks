@@ -6,7 +6,7 @@ namespace CodeSparks.Data.Models
 {
     public class Spark
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         [MaxLength(100)]
         public required string Name { get; set; }
@@ -25,7 +25,7 @@ namespace CodeSparks.Data.Models
         public SparkCategory Category { get; set; }
 
         [ForeignKey("Project")]
-        public long? ProjectId { get; set; }
+        public Guid? ProjectId { get; set; }
         public virtual Project? Project { get; set; }
 
         [Url]

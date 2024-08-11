@@ -26,7 +26,7 @@ namespace CodeSparks.Controllers
         }
 
         // GET: Projects/Details/5
-        public async Task<IActionResult> Details(long? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -66,7 +66,7 @@ namespace CodeSparks.Controllers
         }
 
         // GET: Projects/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,7 +86,7 @@ namespace CodeSparks.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Description,Author,RepositoryUrl")] Project project)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Description,Author,RepositoryUrl")] Project project)
         {
             if (id != project.Id)
             {
@@ -117,7 +117,7 @@ namespace CodeSparks.Controllers
         }
 
         // GET: Projects/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -137,7 +137,7 @@ namespace CodeSparks.Controllers
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var project = await _context.Projects.FindAsync(id);
             if (project != null)
@@ -149,7 +149,7 @@ namespace CodeSparks.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProjectExists(long id)
+        private bool ProjectExists(Guid id)
         {
             return _context.Projects.Any(e => e.Id == id);
         }

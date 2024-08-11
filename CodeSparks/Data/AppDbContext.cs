@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodeSparks.Data
 {
-    public class AppDbContext : IdentityDbContext<AppUser, IdentityRole<long>, long>
+    public class AppDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
     {
         public DbSet<AppMetadata> AppMetadata { get; set; }
         public DbSet<Spark> Sparks { get; set; }

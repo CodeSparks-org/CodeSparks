@@ -2,7 +2,7 @@
 
 namespace CodeSparks.Data.Models
 {
-    public class AppUser : IdentityUser<long>
+    public class AppUser : IdentityUser<Guid>
     {
         public string? Name { get; set; }
         public long XP { get; set; }

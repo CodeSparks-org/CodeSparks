@@ -5,7 +5,7 @@ namespace CodeSparks.Services.Repositories
 {
     public interface IBadgeRepository
     {
-        List<Badge> GetBadgesByUserId(long userId);
+        List<Badge> GetBadgesByUserId(Guid userId);
         void AddBadge(Badge badge);
     }
 
@@ -18,7 +18,7 @@ namespace CodeSparks.Services.Repositories
             _context = context;
         }
 
-        public List<Badge> GetBadgesByUserId(long userId)
+        public List<Badge> GetBadgesByUserId(Guid userId)
         {
             return _context.Badges.Where(b => b.UserId == userId).ToList();
         }

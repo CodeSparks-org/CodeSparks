@@ -10,7 +10,7 @@ namespace CodeSparks.Data.Models
         [ForeignKey("SkillId")]
         public virtual Skill? Skill { get; set; }
         
-        public long UserId { get; set; }
+        public Guid UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual AppUser? User { get; set; }
         

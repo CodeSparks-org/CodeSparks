@@ -4,7 +4,7 @@ namespace CodeSparks.Data.Models
 {
     public class Project
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         [MaxLength(60)]
         public required string Name { get; set; }

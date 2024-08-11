@@ -8,7 +8,7 @@ namespace CodeSparks.Data.Models
         public Guid QuestId { get; set; }
         [ForeignKey("QuestId")]
         public virtual Quest? Quest { get; set; }
-        public long UserId { get; set; }
+        public Guid UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual AppUser? User { get; set; }
         public QuestStatus Status { get; set; }

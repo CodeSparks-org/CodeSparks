@@ -19,10 +19,10 @@ namespace CodeSparks.Services.Repositories
         private readonly AppDbContext _context;
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<IdentityRole<long>> _roleManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
         public UserRepository(AppDbContext context, ILogger<HomeController> logger,
-                                UserManager<AppUser> userManager, RoleManager<IdentityRole<long>> roleManager)
+                                UserManager<AppUser> userManager, RoleManager<IdentityRole<Guid>> roleManager)
         {
             _context = context;
             _logger = logger;

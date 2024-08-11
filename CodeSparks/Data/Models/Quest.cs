@@ -8,7 +8,7 @@ namespace CodeSparks.Data.Models
         public required string Title { get; set; }
         public required string Description { get; set; }
         public int XPReward { get; set; }
-        public long OwnerUserId { get; set; }
+        public Guid OwnerUserId { get; set; }
         [ForeignKey("OwnerUserId")]
         public virtual AppUser? Owner { get; set; }
     }

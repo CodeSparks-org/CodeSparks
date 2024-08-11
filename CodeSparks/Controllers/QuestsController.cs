@@ -35,8 +35,13 @@ namespace CodeSparks.Controllers
         public IActionResult Start(Guid id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(userId == null)
+            {
+                return NotFound();
+            }
+
             var questProgress = _context.QuestProgresses
-                .FirstOrDefault(qp => qp.QuestId == id && qp.UserId == long.Parse(userId));
+                .FirstOrDefault(qp => qp.QuestId == id && qp.UserId == Guid.Parse(userId));
 
             if (questProgress == null)
             {

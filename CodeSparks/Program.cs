@@ -41,8 +41,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //        options.SlidingExpiration = true;
 //    });
 
-builder.Services.AddIdentity<AppUser, IdentityRole<long>>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole<long>>()
+builder.Services.AddIdentity<AppUser, IdentityRole<Guid>>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole<Guid>>()
     .AddUserManager<UserManager<AppUser>>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
