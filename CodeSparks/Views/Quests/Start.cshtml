@@ -1,11 +1,6 @@
 ﻿@model QuestProgress
 
 <div class="container mt-5">
-    <h2>Quest Started: @Model.Quest.Title</h2>
-    <p>@Model.Quest.Description</p>
-    <p><strong>XP Reward:</strong> @Model.Quest.XPReward</p>
-    <p><strong>Status:</strong> @Model.Status</p>
-
     @if (ViewBag.Message != null)
     {
         <div class="alert alert-success">
@@ -13,5 +8,11 @@
         </div>
     }
 
+    <h2>@Model.Quest.Title</h2>
+    <p>@Model.Quest.Description</p>
+    <p><strong>XP Reward:</strong> @Model.Quest.XPReward</p>
+    <p><strong>Status:</strong> @Model.Status</p>
+
+    
     <a asp-action="Index" class="btn btn-primary">Back to Quests</a>
 </div>

@@ -34,13 +34,6 @@
                         <p class="card-text"><strong>Author:</strong> @item.Author</p>
                         <p class="card-text"><strong>Repository:</strong> <a href="@item.RepositoryUrl" target="_blank">@item.RepositoryUrl</a></p>
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-block float-end">View Details</a>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <div class="mt-2">
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
-                            </div>
-                        }
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@
 using CodeSparks.Data.Models;
 using CodeSparks.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace CodeSparks.Controllers
@@ -32,29 +33,34 @@ namespace CodeSparks.Controllers
             return View(quests);
         }
 
-        public IActionResult Start(Guid id)
+        public async Task<IActionResult> StartAsync(Guid id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if(userId == null)
+            var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(userIdStr == null || !Guid.TryParse(userIdStr, out var userId))
             {
                 return NotFound();
             }
 
-            var questProgress = _context.QuestProgresses
-                .FirstOrDefault(qp => qp.QuestId == id && qp.UserId == Guid.Parse(userId));
+            var questProgress = await _context.QuestProgress
+                .FirstOrDefaultAsync(qp => qp.QuestId == id && qp.UserId == Guid.Parse(userIdStr));
 
             if (questProgress == null)
             {
-                return NotFound();
+                questProgress = new QuestProgress { QuestId = id, UserId = userId };
+                _context.QuestProgress.Add(questProgress);
+                await _context.SaveChangesAsync();
             }
 
             // Update the quest progress status
             questProgress.Status = QuestStatus.InProgress;
             questProgress.StartedAt = DateTime.UtcNow;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             // Optionally, pass a message or data to the view
             ViewBag.Message = "Quest started successfully!";
+            questProgress = await _context.QuestProgress
+                .Include(q => q.Quest)
+                .SingleOrDefaultAsync(qp => qp.QuestId == id && qp.UserId == Guid.Parse(userIdStr));
             return View(questProgress); // Render the Start view with the updated progress
         }
     }

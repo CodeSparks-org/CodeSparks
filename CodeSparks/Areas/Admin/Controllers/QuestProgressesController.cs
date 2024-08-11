@@ -23,7 +23,7 @@ namespace CodeSparks.Areas.Admin.Controllers
         // GET: Admin/QuestProgresses
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.QuestProgresses.Include(q => q.Quest).Include(q => q.User);
+            var appDbContext = _context.QuestProgress.Include(q => q.Quest).Include(q => q.User);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace CodeSparks.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var questProgress = await _context.QuestProgresses
+            var questProgress = await _context.QuestProgress
                 .Include(q => q.Quest)
                 .Include(q => q.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -82,7 +82,7 @@ namespace CodeSparks.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var questProgress = await _context.QuestProgresses.FindAsync(id);
+            var questProgress = await _context.QuestProgress.FindAsync(id);
             if (questProgress == null)
             {
                 return NotFound();
@@ -137,7 +137,7 @@ namespace CodeSparks.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var questProgress = await _context.QuestProgresses
+            var questProgress = await _context.QuestProgress
                 .Include(q => q.Quest)
                 .Include(q => q.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -154,10 +154,10 @@ namespace CodeSparks.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var questProgress = await _context.QuestProgresses.FindAsync(id);
+            var questProgress = await _context.QuestProgress.FindAsync(id);
             if (questProgress != null)
             {
-                _context.QuestProgresses.Remove(questProgress);
+                _context.QuestProgress.Remove(questProgress);
             }
 
             await _context.SaveChangesAsync();
@@ -166,7 +166,7 @@ namespace CodeSparks.Areas.Admin.Controllers
 
         private bool QuestProgressExists(Guid id)
         {
-            return _context.QuestProgresses.Any(e => e.Id == id);
+            return _context.QuestProgress.Any(e => e.Id == id);
         }
     }
 }
