@@ -19,17 +19,23 @@ namespace CodeSparks.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var username = Request.Form["username"];
+            var username = Request.Form["username"].ToString();
             if (string.IsNullOrEmpty(username)) return Page();
+
+            if (username.Length < 5)
+            {
+                ModelState.AddModelError("Username", "This username is shorter than 5 letters");
+                return Page();
+            }
 
             var user = await _userManager.FindByNameAsync(username);
             if (user != null)
             {
                 ModelState.AddModelError("Username", "This username is already taken");
-                return Page(); // Re-render the page with the error message
+                return Page();
             }
 
-            return RedirectToPage("SignUp", new { username = username});
+            return RedirectToPage("SignUp", new { username = username });
         }
     }
 }

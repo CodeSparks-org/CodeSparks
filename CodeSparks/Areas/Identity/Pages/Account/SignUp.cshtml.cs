@@ -48,17 +48,22 @@ namespace CodeSparks.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            public string Username { get; set; }
-            public string Email { get; set; }
+            [Required]
+            [MinLength(5)]
+            public string Username { get; set; } = string.Empty;
+            
+            [Required]
+            [EmailAddress]
+            public string Email { get; set; } = string.Empty;
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            public string Password { get; set; }
+            public string Password { get; set; } = string.Empty;
 
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             [DataType(DataType.Password)]
-            public string ConfirmPassword { get; set; }
+            public string ConfirmPassword { get; set; } = string.Empty;
         }
 
         public async Task OnGet(string username, string? returnUrl = null)
@@ -73,7 +78,6 @@ namespace CodeSparks.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
-
                 var user = new AppUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
