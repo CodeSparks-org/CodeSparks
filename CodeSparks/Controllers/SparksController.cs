@@ -33,6 +33,7 @@ namespace CodeSparks.Controllers
             }
 
             var model = await sparks.ToListAsync();
+            ViewData["SelectedCategory"] = category;
             return View(model);
         }
 
