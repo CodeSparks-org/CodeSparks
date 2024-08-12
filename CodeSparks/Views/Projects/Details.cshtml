@@ -1,42 +1,54 @@
 ﻿@model CodeSparks.Data.Models.Project
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Project Details";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">@Model.Name</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="~/img/default_project.png" alt="Project Image" class="img-fluid rounded mb-3" />
+                </div>
+                <div class="col-md-8">
+                    <h4 class="text-muted">Project Information</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            <i class="fas fa-align-left"></i> @Html.DisplayNameFor(model => model.Description)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
 
-<div>
-    <h4>Project</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Author)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RepositoryUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RepositoryUrl)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                        <dt class="col-sm-4">
+                            <i class="fas fa-user"></i> @Html.DisplayNameFor(model => model.Author)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Author)
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            <i class="fas fa-link"></i> @Html.DisplayNameFor(model => model.RepositoryUrl)
+                        </dt>
+                        <dd class="col-sm-8">
+                            <a href="@Model.RepositoryUrl" target="_blank">@Model.RepositoryUrl</a>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a class="btn btn-secondary" asp-action="Index">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
 </div>
