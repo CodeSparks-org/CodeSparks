@@ -2,8 +2,15 @@
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 
+@{
+    string[] symbols = { "❇️", "🎆", "✨", "🎇", "✴️", "⭐", "🌠", "🌟" };
+    Random random = new Random();
+    int index = random.Next(symbols.Length);
+    string randomSymbol = symbols[index];
+}
+
 <section class="hero-section container mt-1 text-center">
-    <h3 class="display-4">Code Sparks  ❇️🎆✨🎇✴️</h3>
+    <h3 class="display-4">Code Sparks  @randomSymbol</h3>
     <p class="lead text-muted">Learn, grow, and connect with a vibrant tech community.</p>
 </section>
 
@@ -92,8 +99,8 @@
     <div class="container py-4 text-center">
         <p>&copy; @DateTime.Now.Year Code Sparks. All rights reserved.</p>
         <p>
-            <a href="#" class="text-white">Privacy Policy</a> |
-            <a href="#" class="text-white">Terms of Service</a>
+            <a asp-controller="Home" asp-action="Privacy" class="text-white">Privacy Policy</a> |
+            <a asp-controller="Home" asp-action="Terms" class="text-white">Terms of Service</a>
         </p>
         <div>
             <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
