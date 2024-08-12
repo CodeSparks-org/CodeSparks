@@ -4,42 +4,34 @@ using CodeSparks.Data.Seed;
 using CodeSparks.Services.Repositories;
 using CodeSparks.Temp;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var hostingProvider = Environment.GetEnvironmentVariable("HOSTING_PROVIDER");
-
-bool isRender = hostingProvider?.ToLower() == "render.com";
-#if DEBUG
-isRender = true;
-#endif
+bool isHttpsRequired = false;
 
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
-
-// fallback to DefaultConnection
 if (connectionString == null)
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        throw new InvalidOperationException("Connection string was not found.");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    //options.UseSqlServer(connectionString));
     options.UseNpgsql(connectionString));
-//builder.Services.AddDbContext<DataProtectionKeyContext>(options =>
-//            options.UseNpgsql(connectionString));
-//builder.Services.AddDataProtection()
-//    .PersistKeysToDbContext<DataProtectionKeyContext>()
-//    .SetApplicationName("iqtify.com");
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie(options =>
-//    {
-//        options.Cookie.HttpOnly = true;
-//        options.ExpireTimeSpan = TimeSpan.FromDays(30);
-//        options.LoginPath = "/Identity/Account/Login";
-//        options.LogoutPath = "/Identity/Account/Logout";
-//        options.SlidingExpiration = true;
-//    });
+builder.Services.AddDbContext<DataProtectionKeyContext>(options =>
+            options.UseNpgsql(connectionString));
+builder.Services.AddDataProtection()
+    .PersistKeysToDbContext<DataProtectionKeyContext>()
+    .SetApplicationName("codesparks.org");
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromDays(30);
+        options.LoginPath = "/Identity/Account/Login";
+        options.LogoutPath = "/Identity/Account/Logout";
+        options.SlidingExpiration = true;
+    });
 
 builder.Services.AddIdentity<AppUser, IdentityRole<Guid>>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole<Guid>>()
@@ -77,16 +69,15 @@ else
     app.UseExceptionHandler("/Home/Error");
 }
 
-if (isRender)
-{
-    app.Logger.LogInformation("Deployed on render.com, no need in https");
-}
-else
+if (isHttpsRequired)
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-
     app.UseHttpsRedirection();
+}
+else
+{
+    app.Logger.LogInformation("Skipping https, according to app code");
 }
 
 // TODO: move later to dev env
