@@ -17,14 +17,14 @@ namespace CodeSparks.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly IUserStore<AppUser> _userStore;
         private readonly IUserEmailStore<AppUser> _emailStore;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly ILogger<SignUpModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public SignUpModel(
             UserManager<AppUser> userManager,
             IUserStore<AppUser> userStore,
             SignInManager<AppUser> signInManager,
-            ILogger<RegisterModel> logger,
+            ILogger<SignUpModel> logger,
             IEmailSender emailSender)
         {
             if(Input == null)

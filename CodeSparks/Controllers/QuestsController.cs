@@ -33,10 +33,15 @@ namespace CodeSparks.Controllers
             return View(quests);
         }
 
-        public async Task<IActionResult> StartAsync(Guid id)
+        public async Task<IActionResult> Start(Guid id)
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Start2(Guid id)
         {
             var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if(userIdStr == null || !Guid.TryParse(userIdStr, out var userId))
+            if (userIdStr == null || !Guid.TryParse(userIdStr, out var userId))
             {
                 return NotFound();
             }
@@ -61,7 +66,7 @@ namespace CodeSparks.Controllers
             questProgress = await _context.QuestProgress
                 .Include(q => q.Quest)
                 .SingleOrDefaultAsync(qp => qp.QuestId == id && qp.UserId == Guid.Parse(userIdStr));
-            return View(questProgress); // Render the Start view with the updated progress
+            return View(questProgress);
         }
     }
 }

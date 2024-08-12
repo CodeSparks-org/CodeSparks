@@ -1,18 +1,24 @@
 ﻿@model QuestProgress
 
-<div class="container mt-5">
-    @if (ViewBag.Message != null)
-    {
-        <div class="alert alert-success">
-            @ViewBag.Message
-        </div>
-    }
+@if(Model?.Quest != null)
+{
+    <div class="container mt-5">
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success">
+                @ViewBag.Message
+            </div>
+        }
 
-    <h2>@Model.Quest.Title</h2>
-    <p>@Model.Quest.Description</p>
-    <p><strong>XP Reward:</strong> @Model.Quest.XPReward</p>
-    <p><strong>Status:</strong> @Model.Status</p>
+        <h2>@Model.Quest.Title</h2>
+        <p>@Model.Quest.Description</p>
+        <p><strong>XP Reward:</strong> @Model.Quest.XPReward</p>
+        <p><strong>Status:</strong> @Model.Status</p>
 
-    
-    <a asp-action="Index" class="btn btn-primary">Back to Quests</a>
-</div>
+
+        <a asp-action="Index" class="btn btn-primary">Back to Quests</a>
+    </div>
+
+}
+
+<h3>This functionality doesn't work for now</h3>
