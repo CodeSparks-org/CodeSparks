@@ -31,6 +31,7 @@ namespace CodeSparks.Data.Models
         [Url]
         [MaxLength(250)]
         public string? Url { get; set; }
+        public virtual ICollection<SparkComment> Comments { get; set; } = new List<SparkComment>();
     }
 
     public enum SparkStatus

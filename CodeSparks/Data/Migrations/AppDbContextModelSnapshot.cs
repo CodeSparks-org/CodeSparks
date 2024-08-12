@@ -301,6 +301,34 @@ namespace CodeSparks.Migrations
                     b.ToTable("Sparks");
                 });
 
+            modelBuilder.Entity("CodeSparks.Data.Models.SparkComment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DatePosted")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("SparkId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SparkId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SparkComments");
+                });
+
             modelBuilder.Entity("CodeSparks.Data.Models.UserSkill", b =>
                 {
                     b.Property<Guid>("Id")
@@ -505,6 +533,23 @@ namespace CodeSparks.Migrations
                     b.Navigation("Project");
                 });
 
+            modelBuilder.Entity("CodeSparks.Data.Models.SparkComment", b =>
+                {
+                    b.HasOne("CodeSparks.Data.Models.Spark", "Spark")
+                        .WithMany("Comments")
+                        .HasForeignKey("SparkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CodeSparks.Data.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Spark");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CodeSparks.Data.Models.UserSkill", b =>
                 {
                     b.HasOne("CodeSparks.Data.Models.Skill", "Skill")
@@ -578,6 +623,11 @@ namespace CodeSparks.Migrations
             modelBuilder.Entity("CodeSparks.Data.Models.Project", b =>
                 {
                     b.Navigation("Sparks");
+                });
+
+            modelBuilder.Entity("CodeSparks.Data.Models.Spark", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

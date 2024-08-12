@@ -62,3 +62,55 @@
         </div>
     </div>
 </div>
+
+<hr />
+<h4>Comments</h4>
+
+@if (User?.Identity?.IsAuthenticated != true)
+{
+    <div class="alert alert-warning mb-3" role="alert">
+        You are posting as an anonymous user. <a href="/Account/Login">Sign in</a> to post with your username.
+    </div>
+}
+
+<div id="comment-section">
+    <form asp-action="AddComment" method="post">
+        <input type="text" class="form-control" id="commentInput" placeholder="Add a comment..." onclick="expandCommentBox()">
+        <div id="commentBox" style="display:none;">
+            <textarea class="form-control" id="commentText" name="commentText" rows="3"></textarea>
+            <button type="submit" class="btn btn-primary mt-2">Save</button>
+        </div>
+        <input type="hidden" name="id" value="@Model.Id" />
+    </form>
+</div>
+
+<div class="mt-4">
+    @foreach (var comment in Model.Comments)
+    {
+        var userName = comment.User?.UserName;
+        <div class="comment-box mb-3">
+            @if (string.IsNullOrEmpty(userName))
+            {
+                <strong>Anonymous:</strong>
+            }
+            else
+            {
+                <a href="@Url.Page("/Profile", new { userName = userName })">@userName</a><span>:</span>
+            }
+            
+            @comment.Text
+            @* <p><small>@comment.DatePosted.ToString("g")</small></p>  TODO: *@
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function expandCommentBox() {
+            document.getElementById("commentInput").style.display = "none";
+            var commentBox = document.getElementById("commentBox");
+            commentBox.style.display = "block";
+            document.getElementById("commentText").focus();
+        }
+    </script>
+}

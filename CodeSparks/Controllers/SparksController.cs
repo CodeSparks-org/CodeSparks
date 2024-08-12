@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using CodeSparks.Data;
 using CodeSparks.Data.Models;
 using System.Collections;
+using Microsoft.AspNetCore.Identity;
 
 namespace CodeSparks.Controllers
 {
     public class SparksController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public SparksController(AppDbContext context)
+
+        public SparksController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index(SparkCategory? category = null)
@@ -62,7 +66,10 @@ namespace CodeSparks.Controllers
             }
 
             var spark = await _context.Sparks
+                .Include(s => s.Comments)
+                .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (spark == null)
             {
                 return NotFound();
@@ -186,5 +193,32 @@ namespace CodeSparks.Controllers
         {
             return _context.Sparks.Any(e => e.Id == id);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(Guid id, string commentText)
+        {
+            if (string.IsNullOrWhiteSpace(commentText))
+            {
+                // Handle empty comment case
+                return RedirectToAction(nameof(Details), new { id });
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            var userId = user?.Id;
+
+            var comment = new SparkComment
+            {
+                UserId = userId,
+                Text = commentText,
+                DatePosted = DateTime.UtcNow,
+                SparkId = id
+            };
+
+            _context.SparkComments.Add(comment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
     }
 }

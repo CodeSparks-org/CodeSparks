@@ -15,6 +15,7 @@ namespace CodeSparks.Data
         public DbSet<QuestProgress> QuestProgress { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<UserSkill> UserSkills { get; set; }
+        public DbSet<SparkComment> SparkComments { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
