@@ -59,14 +59,20 @@
         </div>
         <div class="f-field-row">
           <h3 class="ch3">Links</h3>
-            @foreach (var social in SocialNetworkService.GetSocialNetworkList())
+             @for (var i = 0; i < Model.UserNetworkLinks.Count; i++)
             {
-              <div class="f-field-row">
+                <div class="f-field-row">
                   <div class="d-flex">
                     <div class="circled-img-container me-2">
-                      <img src="@social.IconUrl" alt="">
+                      <img src="@SocialNetworkService.GetSocialNetworkList().FirstOrDefault(l => l.Name == @Model.UserNetworkLinks[i].Name)?.IconUrl" alt="">
                     </div>
-                    <input id="profile-social" class="f-input"name="@social.Name" type="text" placeholder="Add link">
+                    <input type="text" id="urlInput" asp-for="UserNetworkLinks[i].Name" readonly hidden />
+                    <input
+                      type="text"
+                      id="profile-social"
+                      placeholder="Add link"
+                      class="f-input"
+                      asp-for="UserNetworkLinks[i].Url">
                   </div>
               </div>
             }
