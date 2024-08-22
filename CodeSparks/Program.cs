@@ -47,6 +47,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddTransient<IEmailSender, InMemoryEmailSender>(); // Replace with your implementation
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBadgeRepository, BadgeRepository>();
+builder.Services.AddScoped<ISocialNetworkService, SocialNetworkService>();
 
 var app = builder.Build();
 app.Logger.LogInformation("Application starting up");

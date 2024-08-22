@@ -15,8 +15,10 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        public UserManager<AppUser> _userManager;
+        public SignInManager<AppUser> _signInManager;
+
+        public AppUser LoggedUser { get; set; }
 
         public IndexModel(
             UserManager<AppUser> userManager,
@@ -66,17 +68,22 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            LoggedUser = await _userManager.GetUserAsync(User);
+            LoggedUser.Name = userName;
+
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                User: LoggedUser
             };
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -86,34 +93,37 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+        [HttpPost]
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+            Console.WriteLine("fgdfgdfg");
+                        Console.WriteLine(LoggedUser);
+            // if (user == null)
+            // {
+            //     return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            // }
 
-            if (!ModelState.IsValid)
-            {
-                await LoadAsync(user);
-                return Page();
-            }
+            // if (!ModelState.IsValid)
+            // {
+            //     await LoadAsync(user);
+            //     return Page();
+            // }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
-            }
+            // var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            // if (Input.PhoneNumber != phoneNumber)
+            // {
+            //     var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+            //     if (!setPhoneResult.Succeeded)
+            //     {
+            //         StatusMessage = "Unexpected error when trying to set phone number.";
+            //         return RedirectToPage();
+            //     }
+            // }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
-            return RedirectToPage();
+            // await _signInManager.RefreshSignInAsync(user);
+            // StatusMessage = "Your profile has been updated";
+            return Page();
         }
     }
 }

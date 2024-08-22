@@ -1,33 +1,102 @@
 ﻿@page
 @model IndexModel
+@inject ISocialNetworkService SocialNetworkService
+@* @model AppUser *@
+
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
-            </div>
-            @* <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div> *@
-@*             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button> *@
-        </form>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/profile.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+
+<div class="container-fluid">
+  <div class="row mb-3">
+    <div class="col">
+      <h3>@ViewData["Title"]</h3>
     </div>
-    <div class="col-md-6">
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="d-flex justify-content-between">
+        <div class="d-flex align-items-center">
+          <div class="profile-image align-items-center">
+            <img src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg" alt="">
+          </div>
+          <div class="profile-text">
+            <span>User Name</span>
+            <div class="d-flex">
+              <span class="me-2">Level: 1</span>
+              <span>XP: 100</span>
+            </div>
+          </div>
+        </div>
+        @* <div>
+          <button type="button" id="profile-edit-btn" class="main-btn">
+            <span class="text">Edit</span>
+          </button>
+        </div> *@
+      </div>
+    </div>
+    <div class="col">
+      <div>
         <form class="form-inline mt-2" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="btn btn-lg btn-dark float-end">Logout</button>
+          <button type="submit" class="btn btn-lg btn-dark float-end">Logout</button>
         </form>
-</div>
+      </div>
+    </div>
+      @* <div class="col-md-6">
+          <form class="form-inline mt-2" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+              <button type="submit" class="btn btn-lg btn-dark float-end">Logout</button>
+          </form>
+      </div> *@
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <form method="post" id="profile-form">
+        <div class="f-field-row mb-0">
+          <h3 class="ch3">General</h3>
+        </div>
+        <div class="f-field-row">
+          <label class="input-label" for="profile-username">Username</label>
+          <input asp-for="@Model.LoggedUser.Name" id="profile-username" class="f-input" type="text" placeholder="Your username">
+        </div>
+        <div class="f-field-row">
+          <label class="input-label" for="profile-description">Description</label>
+          <textarea asp-for="@Model.LoggedUser.Description" name="" id="profile-description" class="f-textarea" placeholder="Write about yourself"></textarea>
+        </div>
+        <div class="f-field-row">
+          <h3 class="ch3">Links</h3>
+            @foreach (var social in SocialNetworkService.GetSocialNetworkList())
+            {
+              <div class="f-field-row">
+                  <div class="d-flex">
+                    <div class="circled-img-container me-2">
+                      <img src="@social.IconUrl" alt="">
+                    </div>
+                    <input id="profile-social" class="f-input"name="@social.Name" type="text" placeholder="Add link">
+                  </div>
+              </div>
+            }
+        </div>
+        <div id="profile-action-btns" class="mt-3">
+          <div class="d-flex">
+             <button type="submit" id="profile-save-btn" class="main-btn me-4">
+              <span class="text">Save</span>
+            </button>
+            <button type="button" id="profile-cancel-btn" class="main-btn transparent">
+              <span class="text">Cancel</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 @section Scripts {
