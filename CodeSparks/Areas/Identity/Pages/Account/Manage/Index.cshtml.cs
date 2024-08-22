@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using System.Xml;
 using CodeSparks.Data;
 using CodeSparks.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -21,15 +22,22 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
         private readonly AppDbContext _context;
         public UserManager<AppUser> _userManager;
         public SignInManager<AppUser> _signInManager;
+        public ISocialNetworkService _networkLinksService;
+        public IEnumerable<SocialNetwork> SocialNetworks;
 
         [BindProperty]
         public AppUser LoggedUser {get; set;}
 
+        [BindProperty]
+        public IList<PlatformLink> UserNetworkLinks {get; set;}
+
         public IndexModel(
             AppDbContext context,
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            ISocialNetworkService service)
         {
+           _networkLinksService = service;
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
@@ -72,14 +80,34 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(AppUser user)
         {
+            var networkLinks = _networkLinksService.GetSocialNetworkList();
+            var linkList = new List<PlatformLink>();
+            UserNetworkLinks = [];
+
+            foreach(var link in networkLinks)
+            {
+              var l = new PlatformLink {
+                Name = link.Name,
+                Url = ""
+              };
+
+              UserNetworkLinks.Add(l);
+            }
+
             LoggedUser = await _userManager.Users
               .Where(u => u.Id == user.Id)
               .Select(u => new AppUser {
-                  Id = user.Id,
-                  UserName = user.UserName,
-                  Description = u.Description
-                })
+                Id = user.Id,
+                UserName = user.UserName,
+                Description = u.Description,
+                Links = user.Links.ToList()
+              })
               .SingleOrDefaultAsync();
+
+              if (LoggedUser.Links.Count != 0)
+              {
+                //TODO: set user links to networkLinks
+              }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -107,9 +135,40 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 
             if (ModelState.IsValid)
             {
-              _context.Update(user);
-               await _context.SaveChangesAsync();
+              var userLinks = await _context.PlatformLinks
+                .Where(l => l.UserId == user.Id)
+                .ToListAsync();
+            
+              foreach(var link in UserNetworkLinks)
+              {
+                if (link.Url == null)
+                {
+                  var linkToRemove = userLinks.FirstOrDefault(l => l.Id == link.Id);
 
+                  if (linkToRemove != null)
+                  {
+                    _context.PlatformLinks.Remove(linkToRemove);
+                  }
+                } else {
+                  var existingLink = userLinks.FirstOrDefault(l => l.Id == link.Id);
+
+                  if (existingLink != null)
+                  {
+                    existingLink = link;
+                  }
+                  else
+                  {
+                    link.UserId = user.Id;
+                    _context.PlatformLinks.Add(link);
+                  }
+                }
+              }
+
+              // user.Links = UserNetworkLinks.Where(l => l.Url != null).ToList();
+              user.Links = UserNetworkLinks;
+              _context.Update(user);
+
+              await _context.SaveChangesAsync();
             }
 
             return RedirectToPage();
