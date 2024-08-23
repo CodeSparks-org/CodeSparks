@@ -6,24 +6,31 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using CodeSparks.Data;
 using CodeSparks.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
+        
+        private readonly AppDbContext _context;
         public UserManager<AppUser> _userManager;
         public SignInManager<AppUser> _signInManager;
 
-        public AppUser LoggedUser { get; set; }
+        [BindProperty]
+        public AppUser LoggedUser {get; set;}
 
         public IndexModel(
+            AppDbContext context,
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -65,19 +72,14 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(AppUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            // var userName = await _userManager.GetUserNameAsync(user);
+            // var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            LoggedUser = await _userManager.GetUserAsync(User);
-            LoggedUser.Name = userName;
 
-            Username = userName;
-
-            Input = new InputModel
-            {
-                PhoneNumber = phoneNumber,
-                User: LoggedUser
-            };
+            LoggedUser = await _userManager.Users
+              .Where(u => u.Id == user.Id)
+              .Select(u => new AppUser { Name = u.UserName})
+              .SingleOrDefaultAsync();
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -93,37 +95,22 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        [HttpPost]
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            Console.WriteLine("fgdfgdfg");
-                        Console.WriteLine(LoggedUser);
-            // if (user == null)
-            // {
-            //     return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            // }
 
-            // if (!ModelState.IsValid)
-            // {
-            //     await LoadAsync(user);
-            //     return Page();
-            // }
+            if (user == null) {
+              return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
 
-            // var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            // if (Input.PhoneNumber != phoneNumber)
-            // {
-            //     var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-            //     if (!setPhoneResult.Succeeded)
-            //     {
-            //         StatusMessage = "Unexpected error when trying to set phone number.";
-            //         return RedirectToPage();
-            //     }
-            // }
+            if (ModelState.IsValid)
+            {
+              _context.Update(LoggedUser);
+               await _context.SaveChangesAsync();
 
-            // await _signInManager.RefreshSignInAsync(user);
-            // StatusMessage = "Your profile has been updated";
-            return Page();
+            }
+
+            return RedirectToPage();
         }
     }
 }
