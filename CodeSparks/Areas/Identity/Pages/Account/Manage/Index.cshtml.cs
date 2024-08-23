@@ -72,13 +72,13 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(AppUser user)
         {
-            // var userName = await _userManager.GetUserNameAsync(user);
-            // var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-
             LoggedUser = await _userManager.Users
               .Where(u => u.Id == user.Id)
-              .Select(u => new AppUser { Name = u.UserName})
+              .Select(u => new AppUser {
+                  Id = user.Id,
+                  Name = u.UserName,
+                  Description = u.Description
+                })
               .SingleOrDefaultAsync();
         }
 
@@ -98,6 +98,9 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+            user.UserName = LoggedUser.Name;
+            user.Name = LoggedUser.Name;
+            user.Description = LoggedUser.Description;
 
             if (user == null) {
               return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -105,7 +108,7 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 
             if (ModelState.IsValid)
             {
-              _context.Update(LoggedUser);
+              _context.Update(user);
                await _context.SaveChangesAsync();
 
             }

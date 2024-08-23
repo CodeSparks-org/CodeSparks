@@ -33,7 +33,7 @@
 
             <div class="mb-3">
                 <label asp-for="Category" class="form-label fw-bold">What kind of Spark is that?</label>
-                <select asp-for="Category" asp-items="Html.GetEnumSelectList<SparkCategory>()"
+                <select id="spark-categories" asp-for="Category" asp-items="Html.GetEnumSelectList<SparkCategory>()"
                         class="form-select @(Model.Category != SparkCategory.Uncategorized ? "pre-selected" : "")">
                 </select>
             </div>
@@ -43,7 +43,7 @@
                 <input asp-for="Name" class="form-control" autofocus />
                 <span asp-validation-for="Name" class="text-danger"></span>
                 <small class="form-text text-muted d-block">
-                    Choose a name that represents the goal of your Spark (e.g., 'Deploy web site' 'Learn Python basics').
+                 Type a name that represents the goal of your <span id="selectedCategoryText">Spark</span> (e.g., 'Deploy web site' 'Learn Python basics').
                 </small>
             </div>
 
@@ -79,5 +79,6 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script src="/js/sparks.js"></script>
     }
 }
