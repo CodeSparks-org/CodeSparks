@@ -76,7 +76,7 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
               .Where(u => u.Id == user.Id)
               .Select(u => new AppUser {
                   Id = user.Id,
-                  Name = u.UserName,
+                  UserName = user.UserName,
                   Description = u.Description
                 })
               .SingleOrDefaultAsync();
@@ -98,8 +98,7 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            user.UserName = LoggedUser.Name;
-            user.Name = LoggedUser.Name;
+            user.UserName = LoggedUser.UserName;
             user.Description = LoggedUser.Description;
 
             if (user == null) {

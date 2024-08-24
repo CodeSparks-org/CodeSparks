@@ -8,12 +8,9 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="~/css/profile.css">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-</head>
+@section HeadStyles {
+  <link rel="stylesheet" href="~/css/profile.css">
+}
 
 <div class="container-fluid">
   <div class="row mb-3">
@@ -36,11 +33,6 @@
             </div>
           </div>
         </div>
-        @* <div>
-          <button type="button" id="profile-edit-btn" class="main-btn">
-            <span class="text">Edit</span>
-          </button>
-        </div> *@
       </div>
     </div>
     <div class="col">
@@ -50,11 +42,6 @@
         </form>
       </div>
     </div>
-      @* <div class="col-md-6">
-          <form class="form-inline mt-2" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-              <button type="submit" class="btn btn-lg btn-dark float-end">Logout</button>
-          </form>
-      </div> *@
   </div>
   <div class="row">
     <div class="col-md-4">
@@ -64,7 +51,7 @@
         </div>
         <div class="f-field-row">
           <label class="input-label" for="profile-username">Username</label>
-          <input asp-for="@Model.LoggedUser.Name" id="profile-username" class="f-input" type="text" placeholder="Your username">
+          <input asp-for="@Model.LoggedUser.UserName" id="profile-username" class="f-input" type="text" placeholder="Your username">
         </div>
         <div class="f-field-row">
           <label class="input-label" for="profile-description">Description</label>
