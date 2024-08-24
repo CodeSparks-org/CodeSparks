@@ -7,5 +7,7 @@ namespace CodeSparks.Data.Models
         public string? Name { get; set; }
         public long XP { get; set; }
         public int Level { get; set; }
+        public string Description {get; set;} = string.Empty;
+        // public string Image {get; set;}
     }
 }

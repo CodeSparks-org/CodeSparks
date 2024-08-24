@@ -1,0 +1,74 @@
+@import '../css/partial/_form.css';
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+  
+.profile-image img {
+  width: inherit;
+  height: inherit;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.profile-text > span {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.profile-text .d-flex span {
+  font-size: 12px;
+  color: #9f9f9f;
+}
+
+.main-btn {
+  min-width: 90px;
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #2878b0;
+  outline: none;
+  transition: .3s all ease-in;
+}
+
+.main-btn .text {
+  font-weight: 500;
+  color: #fff;
+}
+
+.main-btn:hover,
+.main-btn:focus,
+.main-btn:active {
+  opacity: 0.7
+}
+
+.main-btn.transparent {
+  background-color: transparent;
+  border: 1px solid #2878b0;
+}
+
+.main-btn.transparent .text {
+  color: #2878b0;
+}
+
+.main-btn.transparent:hover,
+.main-btn.transparent:focus,
+.main-btn.transparent:active {
+  background-color: #2878b0;
+}
+
+.circled-img-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.circled-img-container > img {
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+}
