@@ -3,6 +3,7 @@ using System;
 using CodeSparks.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeSparks.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240825211030_PlatformLinks")]
+    partial class PlatformLinks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,9 +157,6 @@ namespace CodeSparks.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("AppUserId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -170,7 +170,7 @@ namespace CodeSparks.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PlatformLinks");
                 });
@@ -318,6 +318,9 @@ namespace CodeSparks.Migrations
                     b.Property<Guid?>("ProjectId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Url")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
@@ -357,44 +360,6 @@ namespace CodeSparks.Migrations
                     b.ToTable("SparkComments");
                 });
 
-            modelBuilder.Entity("CodeSparks.Data.Models.SparkUserStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CompletedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("ReviewDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("ReviewedById")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("SparkId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("StartedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewedById");
-
-                    b.HasIndex("SparkId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SparkStatuses");
-                });
-
             modelBuilder.Entity("CodeSparks.Data.Models.UserSkill", b =>
                 {
                     b.Property<Guid>("Id")
@@ -417,25 +382,6 @@ namespace CodeSparks.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserSkills");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FriendlyName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Xml")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DataProtectionKeys");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -570,9 +516,13 @@ namespace CodeSparks.Migrations
 
             modelBuilder.Entity("CodeSparks.Data.Models.PlatformLink", b =>
                 {
-                    b.HasOne("CodeSparks.Data.Models.AppUser", null)
+                    b.HasOne("CodeSparks.Data.Models.AppUser", "User")
                         .WithMany("Links")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodeSparks.Data.Models.Quest", b =>
@@ -636,31 +586,6 @@ namespace CodeSparks.Migrations
                     b.HasOne("CodeSparks.Data.Models.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Spark");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CodeSparks.Data.Models.SparkUserStatus", b =>
-                {
-                    b.HasOne("CodeSparks.Data.Models.AppUser", "ReviewedBy")
-                        .WithMany()
-                        .HasForeignKey("ReviewedById");
-
-                    b.HasOne("CodeSparks.Data.Models.Spark", "Spark")
-                        .WithMany("UserStatuses")
-                        .HasForeignKey("SparkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CodeSparks.Data.Models.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReviewedBy");
 
                     b.Navigation("Spark");
 
@@ -750,8 +675,6 @@ namespace CodeSparks.Migrations
             modelBuilder.Entity("CodeSparks.Data.Models.Spark", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("UserStatuses");
                 });
 #pragma warning restore 612, 618
         }
