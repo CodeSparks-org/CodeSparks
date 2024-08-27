@@ -18,10 +18,8 @@ if (connectionString == null)
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
-builder.Services.AddDbContext<DataProtectionKeyContext>(options =>
-            options.UseNpgsql(connectionString));
 builder.Services.AddDataProtection()
-    .PersistKeysToDbContext<DataProtectionKeyContext>()
+    .PersistKeysToDbContext<AppDbContext>()
     .SetApplicationName("codesparks.org");
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

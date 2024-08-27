@@ -3,14 +3,17 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace CodeSparks.Migrations.DataProtectionKey
+namespace CodeSparks.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_DataProtectionKeyContext : Migration
+    public partial class Move_DataProtectionKeys_to_AppDbContext : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "DataProtectionKeys"); // comment out if this table doesn't exist.
+
             migrationBuilder.CreateTable(
                 name: "DataProtectionKeys",
                 columns: table => new

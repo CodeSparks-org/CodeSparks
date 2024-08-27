@@ -1,11 +1,12 @@
 ﻿using CodeSparks.Data.Models;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeSparks.Data
 {
-    public class AppDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
+    public class AppDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>, IDataProtectionKeyContext
     {
         public DbSet<AppMetadata> AppMetadata { get; set; }
         public DbSet<Spark> Sparks { get; set; }
@@ -18,6 +19,8 @@ namespace CodeSparks.Data
         public DbSet<SparkComment> SparkComments { get; set; }
         public DbSet<SparkUserStatus> SparkStatuses { get; set; }
 
+
+        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
