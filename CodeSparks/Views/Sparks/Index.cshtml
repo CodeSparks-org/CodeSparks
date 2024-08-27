@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
 @inject SignInManager<AppUser> SignInManager
 @model List<Spark>
 
@@ -48,17 +49,14 @@
         {
             <div class="col-md-3 d-flex align-items-stretch mb-4">
                 <div class="card shadow-sm h-100">
-                    <a href="sparks/details/@spark.Id" class="stretched-link"></a>
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-center mb-2">@spark.Name</h5>
-                        <p class="card-text flex-grow-1 mb-3 description">
+                        <p class="card-text flex-grow-1 mb-3 card-description">
                             @spark.Description
                         </p>
-                        <div class="mt-3">
-                            <p class="text-muted text-center"><strong>Category:</strong> @spark.Category</p>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <p class="text-muted mb-0 me-3">@spark.Category</p>
+                            <div class="d-flex">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
@@ -66,20 +64,30 @@
                                 <i class="bi bi-star text-warning"></i>
                             </div>
                         </div>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            //TODO: chave this line, because it's performance is going to be terrible. Need to have a ViewModel instead.
+                            var userSpark = spark.UserStatuses.FirstOrDefault(us => us.UserId.ToString() == User.FindFirstValue(ClaimTypes.NameIdentifier));
+                            if (userSpark != null)
+                            {
+                                <p class="text-muted text-center mt-2">Status: @userSpark.Status</p>
+                            }
+
+                            <div class="text-end mt-3">
+                                @if (userSpark != null)
+                                {
+                                    <a asp-controller="Sparks" asp-action="Details" asp-route-id="@spark.Id" class="btn btn-outline-primary">Details</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Sparks" asp-action="Start" asp-route-id="@spark.Id" class="btn btn-success">Start</a>
+                                    <a asp-controller="Sparks" asp-action="Details" asp-route-id="@spark.Id" class="btn btn-outline-primary">Details</a>
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
         }
     }
 </div>
-
-<style>
-    .description {
-        max-height: 7em; /* Adjust this value for more or fewer lines */
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 3; /* Limit the number of lines */
-        -webkit-box-orient: vertical;
-    }
-</style>

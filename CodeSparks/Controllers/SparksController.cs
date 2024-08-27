@@ -26,7 +26,9 @@ namespace CodeSparks.Controllers
 
         public async Task<IActionResult> Index(SparkCategory? category = null)
         {
-            IQueryable<Spark> sparks = _context.Sparks.Where(s => s.IsPublic);
+            IQueryable<Spark> sparks = _context.Sparks
+                .Include(s => s.UserStatuses)
+                .Where(s => s.IsPublic);
             if (category != null)
             {
                 sparks = sparks.Where(s => s.Category == category);
@@ -46,16 +48,24 @@ namespace CodeSparks.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> List(SparkCategory? category = null)
+        public async Task<IActionResult> Start(Guid? id)
         {
-            IQueryable<Spark> sparks = _context.Sparks.Where(s => s.IsPublic);
-            if (category != null)
-            {
-                sparks = sparks.Where(s => s.Category == category);
-            }
+            var userId = await GetUserIdAsync();
+            if (userId == null || id == null)
+                return NotFound();
 
-            var model = await sparks.ToListAsync();
-            return View(model);
+            var status = new SparkUserStatus
+            {
+                SparkId = (Guid)id,
+                StartedDate = DateTime.UtcNow,
+                UserId = (Guid)userId,
+                Status = SparkStatus.InProgress
+            };
+
+            await _context.SparkStatuses.AddAsync(status);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id });
         }
 
         // GET: Sparks/Details/5
@@ -74,6 +84,15 @@ namespace CodeSparks.Controllers
             if (spark == null)
             {
                 return NotFound();
+            }
+
+            var userId = await GetUserIdAsync();
+            if(userId != null)
+            {
+                ViewBag.Status = await _context.SparkStatuses
+                    .Where(s => s.UserId == userId && s.SparkId == id)
+                    .Select(s => s.Status)
+                    .FirstOrDefaultAsync();
             }
 
             return View(spark);
@@ -101,7 +120,7 @@ namespace CodeSparks.Controllers
             {
                 _context.Add(spark);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(Index));
             }
             return View(spark);
         }
@@ -152,7 +171,7 @@ namespace CodeSparks.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(Index));
             }
             return View(spark);
         }
@@ -187,7 +206,7 @@ namespace CodeSparks.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(Index));
         }
 
         private bool SparkExists(Guid id)
@@ -204,12 +223,9 @@ namespace CodeSparks.Controllers
                 return RedirectToAction(nameof(Details), new { id });
             }
 
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user?.Id;
-
             var comment = new SparkComment
             {
-                UserId = userId,
+                UserId = await GetUserIdAsync(),
                 Text = commentText,
                 DatePosted = DateTime.UtcNow,
                 SparkId = id
@@ -221,5 +237,12 @@ namespace CodeSparks.Controllers
             return RedirectToAction(nameof(Details), new { id });
         }
 
+        private async Task<Guid?> GetUserIdAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var userId = user?.Id;
+
+            return userId;
+        }
     }
 }

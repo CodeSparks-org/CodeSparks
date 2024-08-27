@@ -3,6 +3,7 @@ using System;
 using CodeSparks.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeSparks.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240827040647_Move_SparkStatus_to_SparkUserStatus")]
+    partial class Move_SparkStatus_to_SparkUserStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,7 +368,7 @@ namespace CodeSparks.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SparkStatuses");
+                    b.ToTable("SparkUserStatus");
                 });
 
             modelBuilder.Entity("CodeSparks.Data.Models.UserSkill", b =>

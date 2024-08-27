@@ -27,11 +27,6 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Status" class="form-label">Status</label>
-                <select asp-for="Status" asp-items="Html.GetEnumSelectList<SparkStatus>()" class="form-select"></select>
-            </div>
-
             <div class="mb-3 form-check">
                 <input type="checkbox" asp-for="IsPublic" class="form-check-input" />
                 <label asp-for="IsPublic" class="form-check-label">Make this Spark public?</label>

@@ -29,3 +29,12 @@ html, body {
     flex-direction: column;
     min-height: 100vh;
 }
+
+.card-description {
+    max-height: 7em; /* Adjust this value for more or fewer lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit the number of lines */
+    -webkit-box-orient: vertical;
+}

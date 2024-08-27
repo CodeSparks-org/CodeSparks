@@ -15,8 +15,6 @@ namespace CodeSparks.Data.Models
         
         public required string Description { get; set; }
         
-        public SparkStatus Status { get; set; }
-        
         [ScaffoldColumn(false)]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         
@@ -32,13 +30,7 @@ namespace CodeSparks.Data.Models
         [MaxLength(250)]
         public string? Url { get; set; }
         public virtual ICollection<SparkComment> Comments { get; set; } = new List<SparkComment>();
-    }
-
-    public enum SparkStatus
-    {
-        NotStarted = 0,
-        InProgress = 1,
-        Completed = 2,
+        public virtual ICollection<SparkUserStatus> UserStatuses { get; set; } = new List<SparkUserStatus>();
     }
 
     public enum SparkCategory
