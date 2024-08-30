@@ -27,7 +27,7 @@ You need to do 3 simple things to configure database:
 You need to [install PostgreSQL](https://www.postgresql.org/download/) for this. It's pretty cool database, which is usually supported fast for new version of EF Core. But you can use any database, in that case - you will need to change migration scripts. So, it may be easier to install Postgres.
    
 2. Check the appsettings.json file and change the connection string to match the database that you plan to user and run migrations.
-Or, even better - change your personal secrest.json file and add there something like:
+Or, even better - change your [personal secrest.json](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=windows) file and add there something like:
 ```json
 {
   "ConnectionStrings:PostgresConnection": "Host=dpg-cq9mcrdds78s739fng50-a.oregon-postgres.render.com;Port=5432;Database=sql_db_s0e5;Username=sql_db_s0e5_user;Password=FObdGBdZ4V9iJZcY7BCEQ6Xj0zJlArBI"
