@@ -23,13 +23,16 @@ or open folder/solution in your favourite IDE and run it.
 ### How to run with database
 If you would like to have a full dev experience - you also need to configure database.
 You need to do 3 simple things to configure database:
-1. Create a database in PostgreSQL (you need to install PostgreSQL for this)
-2. Check the appsettings.json file, change the connection string to match the database that you plan to user and run migrations.
+1. Create a database in PostgreSQL.
+You need to [install PostgreSQL](https://www.postgresql.org/download/) for this. It's pretty cool database, which is usually supported fast for new version of EF Core. But you can use any database, in that case - you will need to change migration scripts. So, it may be easier to install Postgres.
+   
+2. Check the appsettings.json file and change the connection string to match the database that you plan to user and run migrations.
 Or, even better - change your personal secrest.json file and add there something like:
 ```json
 {
   "ConnectionStrings:PostgresConnection": "Host=dpg-cq9mcrdds78s739fng50-a.oregon-postgres.render.com;Port=5432;Database=sql_db_s0e5;Username=sql_db_s0e5_user;Password=FObdGBdZ4V9iJZcY7BCEQ6Xj0zJlArBI"
 }
+
 3. [Apply migrations](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli) with
 ```
 dotnet ef database update
