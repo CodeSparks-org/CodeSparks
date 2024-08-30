@@ -20,7 +20,19 @@ The project in this repo is ASP.NET Core app, so the only prerequisite is .NET 8
 `dotnet run`
 or open folder/solution in your favourite IDE and run it.
 
-If you would like to have a full dev experience - you also need to configure database. For this - check the appsettings.json file, change the connection string to match the database that you plan to user and run migrations.
+### How to run with database
+If you would like to have a full dev experience - you also need to configure database.
+You need to do 3 simple things to configure database:
+1. Create a database in PostgreSQL (you need to install PostgreSQL for this)
+2. Check the appsettings.json file, change the connection string to match the database that you plan to user and run migrations.
+Or, even better - change your personal secrest.json file and add there something like:
+```json
+{
+  "ConnectionStrings:PostgresConnection": "Host=dpg-cq9mcrdds78s739fng50-a.oregon-postgres.render.com;Port=5432;Database=sql_db_s0e5;Username=sql_db_s0e5_user;Password=FObdGBdZ4V9iJZcY7BCEQ6Xj0zJlArBI"
+}
+3. [Apply migrations](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli) with
+```
+dotnet ef database update
 
 ### Contributing
 We welcome contributions! If you're passionate about tech education and want to help us make CodeSparks even better, feel free to:
