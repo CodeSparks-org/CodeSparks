@@ -19,9 +19,9 @@ namespace CodeSparks.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var sparks = await _db.Sparks.Where(s => s.IsPublic).ToListAsync();
-            
-            return View(sparks);
+            // leave this action simple, so anyone can run it?
+            // or add details that it was run in debug mode, check if connectionstring is present
+            return View();
         }
 
         public IActionResult Privacy()

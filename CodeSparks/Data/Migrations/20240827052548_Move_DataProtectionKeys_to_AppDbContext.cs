@@ -11,8 +11,8 @@ namespace CodeSparks.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "DataProtectionKeys"); // comment out if this table doesn't exist.
+            //migrationBuilder.DropTable(
+            //    name: "DataProtectionKeys");
 
             migrationBuilder.CreateTable(
                 name: "DataProtectionKeys",

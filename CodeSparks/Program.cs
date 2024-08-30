@@ -11,10 +11,15 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 bool isHttpsRequired = false;
+bool testMode = false;
 
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
 if (connectionString == null)
-        throw new InvalidOperationException("Connection string was not found.");
+#if DEBUG
+    testMode = true;
+#else
+    throw new InvalidOperationException("Connection string was not found.");
+#endif
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
@@ -50,13 +55,14 @@ builder.Services.AddScoped<ISocialNetworkService, SocialNetworkService>();
 var app = builder.Build();
 app.Logger.LogInformation("Application starting up");
 
-using (var scope = app.Services.CreateScope())
-{
-    app.Logger.LogInformation("Seeding initial data.");
-    var services = scope.ServiceProvider;
-    var seeder = new DefaultDataSeeder(services);
-    await seeder.SeedAsync();
-}
+if (!testMode)
+    using (var scope = app.Services.CreateScope())
+    {
+        app.Logger.LogInformation("Seeding initial data.");
+        var services = scope.ServiceProvider;
+        var seeder = new DefaultDataSeeder(services);
+        await seeder.SeedAsync();
+    }
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
