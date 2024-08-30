@@ -47,5 +47,6 @@ We welcome contributions! If you're passionate about tech education and want to 
 
 And of course suggest your ideas in the [issues](https://github.com/CodeSparks-org/CodeSparks/issues) or on [codesparks.org](https://codesparks.org/Sparks/Create?category=Idea)
 
-### Another question?
-Just add another item in the [issues](https://github.com/CodeSparks-org/CodeSparks/issues) 
+### Still something unclear or you just have a question?
+Just add another item in the [issues](https://github.com/CodeSparks-org/CodeSparks/issues).
+We are happy to answer whatever is your request
