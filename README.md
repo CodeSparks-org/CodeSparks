@@ -20,7 +20,24 @@ The project in this repo is ASP.NET Core app, so the only prerequisite is .NET 8
 `dotnet run`
 or open folder/solution in your favourite IDE and run it.
 
-If you would like to have a full dev experience - you also need to configure database. For this - check the appsettings.json file, change the connection string to match the database that you plan to user and run migrations.
+### How to run with database
+If you would like to have a full dev experience - you also need to configure database.
+You need to do 3 simple things to configure database:
+1. Create a database in PostgreSQL.
+You need to [install PostgreSQL](https://www.postgresql.org/download/) for this. It's pretty cool database, which is usually supported fast for new version of EF Core. But you can use any database, in that case - you will need to change migration scripts. So, it may be easier to install Postgres.
+   
+2. Check the appsettings.json file and change the connection string to match the database that you plan to user and run migrations.
+Or, even better - change your [personal secrest.json](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=windows) file and add there something like:
+```json
+{
+  "ConnectionStrings:PostgresConnection": "Host=localhost;Port=5432;Database=CodeSparks;Username=user;Password=password"
+}
+```
+
+3. [Apply migrations](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli) with
+```markdown
+dotnet ef database update
+```
 
 ### Contributing
 We welcome contributions! If you're passionate about tech education and want to help us make CodeSparks even better, feel free to:
@@ -28,4 +45,7 @@ We welcome contributions! If you're passionate about tech education and want to 
 - Suggest Improvements: Share your ideas and suggestions for enhancing the platform.
 - Create Pull Requests: If you have coding skills, contribute bug fixes or new features through pull requests.
 
-And of course suggest your ideas [in issues](https://github.com/CodeSparks-org/CodeSparks/issues) or on [codesparks.org](https://codesparks.org/Sparks/Create?category=Idea)
+And of course suggest your ideas in the [issues](https://github.com/CodeSparks-org/CodeSparks/issues) or on [codesparks.org](https://codesparks.org/Sparks/Create?category=Idea)
+
+### Another question?
+Just add another item in the [issues](https://github.com/CodeSparks-org/CodeSparks/issues) 
