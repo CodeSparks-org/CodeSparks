@@ -34,7 +34,7 @@ Or, even better - change your personal secrest.json file and add there something
 }
 
 3. [Apply migrations](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli) with
-```
+```markdown
 dotnet ef database update
 
 ### Contributing
