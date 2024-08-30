@@ -32,10 +32,12 @@ Or, even better - change your personal secrest.json file and add there something
 {
   "ConnectionStrings:PostgresConnection": "Host=dpg-cq9mcrdds78s739fng50-a.oregon-postgres.render.com;Port=5432;Database=sql_db_s0e5;Username=sql_db_s0e5_user;Password=FObdGBdZ4V9iJZcY7BCEQ6Xj0zJlArBI"
 }
+```
 
 3. [Apply migrations](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli) with
 ```markdown
 dotnet ef database update
+```
 
 ### Contributing
 We welcome contributions! If you're passionate about tech education and want to help us make CodeSparks even better, feel free to:
@@ -43,4 +45,7 @@ We welcome contributions! If you're passionate about tech education and want to 
 - Suggest Improvements: Share your ideas and suggestions for enhancing the platform.
 - Create Pull Requests: If you have coding skills, contribute bug fixes or new features through pull requests.
 
-And of course suggest your ideas [in issues](https://github.com/CodeSparks-org/CodeSparks/issues) or on [codesparks.org](https://codesparks.org/Sparks/Create?category=Idea)
+And of course suggest your ideas in the [issues](https://github.com/CodeSparks-org/CodeSparks/issues) or on [codesparks.org](https://codesparks.org/Sparks/Create?category=Idea)
+
+### Another question?
+Just add another item in the [issues](https://github.com/CodeSparks-org/CodeSparks/issues) 
