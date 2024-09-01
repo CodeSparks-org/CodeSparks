@@ -39,8 +39,20 @@
                         }
                     </ul>
                     <h5 class="mt-4">Links</h5>
-                    <p class="card-text"><a href="https://www.linkedin.com/in/username" target="_blank">LinkedIn</a></p>
-                    <p class="card-text"><a href="https://github.com/username" target="_blank">GitHub</a></p>
+                    @if (Model.UserLinks != null && Model.UserLinks.Any())
+                    {
+                        @foreach(var link in Model.UserLinks)
+                        {
+                            if (!string.IsNullOrEmpty(link.Url))
+                            {
+                                <p class="card-text"><a href="@link.Url" target="_blank">@link.Name</a></p>
+                            }
+                            else
+                            {
+                            <p class="card-text">@link.Name</p>
+                            }
+                        }
+                    }
                 </div>
             </div>
         </div>

@@ -12,6 +12,8 @@ using CodeSparks.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Build.Framework;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeSparks.Areas.Identity.Pages.Account.Manage
@@ -84,30 +86,30 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
             var linkList = new List<PlatformLink>();
             UserNetworkLinks = [];
 
-            foreach(var link in networkLinks)
-            {
-              var l = new PlatformLink {
-                Name = link.Name,
-                Url = ""
-              };
-
-              UserNetworkLinks.Add(l);
-            }
-
             LoggedUser = await _userManager.Users
               .Where(u => u.Id == user.Id)
               .Select(u => new AppUser {
                 Id = user.Id,
                 UserName = user.UserName,
+                Name = user.Name,
                 Description = u.Description,
-                Links = user.Links.ToList()
+                Links = u.Links.ToList()
               })
               .SingleOrDefaultAsync();
 
-              if (LoggedUser.Links.Count != 0)
-              {
-                //TODO: set user links to networkLinks
-              }
+            foreach(var link in networkLinks)
+            {
+              var userLink = LoggedUser.Links.FirstOrDefault(l => l.Name == link.Name);
+              
+              var l = new PlatformLink {
+                Id = userLink != null ? userLink.Id : Guid.NewGuid(),
+                UserId = userLink != null ? userLink.UserId : user.Id,
+                Name = userLink != null ? link.Name : link.Name,
+                Url = userLink != null ? userLink.Url : ""
+              };
+
+              UserNetworkLinks.Add(l);
+            }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -126,7 +128,8 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            user.UserName = LoggedUser.UserName;
+            user.UserName = user.UserName;
+            user.Name = LoggedUser.Name;
             user.Description = LoggedUser.Description;
 
             if (user == null) {
@@ -138,23 +141,19 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
               var userLinks = await _context.PlatformLinks
                 .Where(l => l.UserId == user.Id)
                 .ToListAsync();
-            
+
               foreach(var link in UserNetworkLinks)
               {
+                var userLink = userLinks.FirstOrDefault(l => l.Id == link.Id);
+
                 if (link.Url == null)
                 {
-                  var linkToRemove = userLinks.FirstOrDefault(l => l.Id == link.Id);
-
-                  if (linkToRemove != null)
-                  {
-                    _context.PlatformLinks.Remove(linkToRemove);
-                  }
+                  _context.PlatformLinks.Remove(userLink);
                 } else {
-                  var existingLink = userLinks.FirstOrDefault(l => l.Id == link.Id);
-
-                  if (existingLink != null)
+                  if (userLink != null)
                   {
-                    existingLink = link;
+                    userLink.Url = link.Url;
+                    _context.PlatformLinks.Update(userLink);
                   }
                   else
                   {
@@ -164,8 +163,6 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
                 }
               }
 
-              // user.Links = UserNetworkLinks.Where(l => l.Url != null).ToList();
-              user.Links = UserNetworkLinks;
               _context.Update(user);
 
               await _context.SaveChangesAsync();
