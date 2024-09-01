@@ -26,7 +26,7 @@
             <img src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg" alt="">
           </div>
           <div class="profile-text">
-            <span>User Name</span>
+            <span>@Model.LoggedUser.UserName</span>
             <div class="d-flex">
               <span class="me-2">Level: 1</span>
               <span>XP: 100</span>
@@ -50,8 +50,8 @@
           <h3 class="ch3">General</h3>
         </div>
         <div class="f-field-row">
-          <label class="input-label" for="profile-username">Username</label>
-          <input asp-for="@Model.LoggedUser.UserName" id="profile-username" class="f-input" type="text" placeholder="Your username">
+          <label class="input-label" for="profile-username">Name</label>
+          <input asp-for="@Model.LoggedUser.Name" id="profile-username" class="f-input" type="text" placeholder="Your name">
         </div>
         <div class="f-field-row">
           <label class="input-label" for="profile-description">Description</label>
@@ -66,7 +66,8 @@
                     <div class="circled-img-container me-2">
                       <img src="@SocialNetworkService.GetSocialNetworkList().FirstOrDefault(l => l.Name == @Model.UserNetworkLinks[i].Name)?.IconUrl" alt="">
                     </div>
-                    <input type="text" id="urlInput" asp-for="UserNetworkLinks[i].Name" readonly hidden />
+                    <input type="text" asp-for="UserNetworkLinks[i].Id" readonly hidden />
+                    <input type="text" asp-for="UserNetworkLinks[i].Name" readonly hidden />
                     <input
                       type="text"
                       id="profile-social"
@@ -78,12 +79,9 @@
             }
         </div>
         <div id="profile-action-btns" class="mt-3">
-          <div class="d-flex">
+          <div class="d-flex justify-content-center">
              <button type="submit" id="profile-save-btn" class="main-btn me-4">
               <span class="text">Save</span>
-            </button>
-            <button type="button" id="profile-cancel-btn" class="main-btn transparent">
-              <span class="text">Cancel</span>
             </button>
           </div>
         </div>
