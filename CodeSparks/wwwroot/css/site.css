@@ -24,6 +24,38 @@ html, body {
     margin: 0;
 }
 
+.close {
+  display: inline-block;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  opacity: 0.3;
+  border: none;
+  background-color: transparent;
+}
+
+.close:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.close:before,
+.close:after {
+  position: absolute;
+  top: 0;
+  content: ' ';
+  height: 10px;
+  width: 2px;
+  background-color: #333;
+}
+
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -37,4 +69,28 @@ html, body {
     display: -webkit-box;
     -webkit-line-clamp: 3; /* Limit the number of lines */
     -webkit-box-orient: vertical;
+}
+
+#hashtag-list {
+  display: flex;
+  flex-wrap: wrap;
+  /* flex-direction: column; */
+  align-items: flex-start;
+  padding-left: 10px;
+}
+
+.hashtag-item {
+  margin-top: 10px;
+  padding: 3px 5px 5px 10px;
+  background-color: #ebebeb;
+}
+
+.hashtag-item .txt {
+  font-size: 14px;
+  font-weight: 500;
+  color: #161616;
+}
+
+.hashtag-item .close {
+  margin-left: 10px;
 }

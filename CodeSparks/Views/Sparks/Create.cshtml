@@ -28,7 +28,7 @@
             A Spark is a small task or idea, that helps you to level-up your skills. It can be something to find, learn, or create.
             For example: Read a tech article, Solve algorithm problem, Pass a test.
         </p>
-        <form asp-action="Create">
+        <form asp-action="Create" id="create-spark-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="mb-3">
@@ -40,7 +40,7 @@
 
             <div class="mb-3">
                 <label asp-for="Name" class="form-label fw-bold">Name</label>
-                <input asp-for="Name" class="form-control" autofocus />
+                <input asp-for="Name" class="form-control create-spark-field" autofocus />
                 <span asp-validation-for="Name" class="text-danger"></span>
                 <small class="form-text text-muted d-block">
                  Type a name that represents the goal of your <span id="selectedCategoryText">Spark</span> (e.g., 'Deploy web site' 'Learn Python basics').
@@ -49,16 +49,40 @@
 
             <div class="mb-3">
                 <label asp-for="Description" class="form-label fw-bold">Description</label>
-                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                <textarea asp-for="Description" class="form-control create-spark-field" rows="5"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="Url" class="form-label fw-bold">Link (URL)</label>
-                <input asp-for="Url" class="form-control" />
+                <input asp-for="Url" class="form-control create-spark-field" />
                 <span asp-validation-for="Url" class="text-danger"></span>
                 <small class="form-text text-muted d-block">
                     Is there a link for this Spark? e.g. repository or article in the web?
+                </small>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Hashtags</label>
+                <input id="hashtag-input" class="form-control"  placeholder="Type hashtag and press Enter" />
+                
+                <div class="mt-2">
+                    <div id="hashtag-list">
+                    @* @if (@Model.Hashtags != null)
+                    {
+                        @foreach(var h in @Model.Hashtags)
+                        {
+                            <li class="hashtag-item">
+                                <span>@h.Name</span>
+                                <span class="close"></span>
+                            </li>
+                        }
+                    } *@
+                    </div>
+                </div>
+                    <input type="hidden" asp-for="Hashtags" id="hashtag-hidden-input" value="@string.Join(",", @Model.Hashtags)" />
+                <small class="form-text text-muted d-block">
+                    Add up to 10 hashtags to help others discover your spark
                 </small>
             </div>
 
@@ -68,7 +92,7 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary float-end" />
+                <button type="submit" value="Create" class="btn btn-primary float-end">Create</button>
             </div>
         </form>
     </div>
