@@ -9,6 +9,7 @@ using CodeSparks.Data;
 using CodeSparks.Data.Models;
 using System.Collections;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CodeSparks.Controllers
 {
@@ -17,25 +18,53 @@ namespace CodeSparks.Controllers
         private readonly AppDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
-
+        [BindProperty]
+        public string Hashtags { get; set; } = string.Empty;
+        public string SelectedCategory { get; set; } = string.Empty;
         public SparksController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(SparkCategory? category = null)
+        public async Task<IActionResult> Index(string? key = null, SparkCategory? category = null)
         {
+            
             IQueryable<Spark> sparks = _context.Sparks
                 .Include(s => s.UserStatuses)
+                .Include(s => s.Hashtags)
                 .Where(s => s.IsPublic);
-            if (category != null)
-            {
-                sparks = sparks.Where(s => s.Category == category);
-            }
 
             var model = await sparks.ToListAsync();
-            ViewData["SelectedCategory"] = category;
+            var selectedCategory = Request.Query["selectedCategory"];
+
+            if (selectedCategory.Any())
+            {
+                if (selectedCategory == "all")
+                {
+                    model = sparks.ToList();
+                }
+                else
+                {
+                    model = sparks.Where(s => s.Category == Enum.Parse<SparkCategory>(selectedCategory)).ToList();
+                }
+            }
+
+            if (model != null)
+            {
+                foreach(var spark in model)
+                {
+                    var hashtags = _context.Hashtags.Where(h => h.SparkId == spark.Id).ToList();
+                    spark.Hashtags = hashtags;
+                }
+            }
+
+            if (key != null)
+            {
+                model = sparks.Where(s => s.Hashtags.Any(h => key == h.Name)).ToList();
+            }
+
+            // ViewData["SelectedCategory"] = category;
             return View(model);
         }
 
@@ -102,10 +131,12 @@ namespace CodeSparks.Controllers
         public IActionResult Create(SparkCategory? category = null)
         {
             var spark = new Spark { IsPublic = true, Name = "", Description = "" };
+
             if (category.HasValue)
             {
                 spark.Category = category.Value;
             }
+
             return View(spark);
         }
 
@@ -118,6 +149,24 @@ namespace CodeSparks.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!string.IsNullOrEmpty(Hashtags))
+                {
+                    spark.Id = Guid.NewGuid();
+                    spark.Hashtags = Hashtags.Split(',')
+                    .Where(h => !_context.Hashtags.Any(dbH => dbH.Name == h))
+                    .Select(h => {
+                        var hashtag = new Hashtag {
+                            Name = h.Trim(),
+                            SparkId = spark.Id,
+                        };
+
+                        return hashtag;
+                    })
+                    .DistinctBy(h => h.Name)
+                    .ToList();
+                }
+
+                _context.Hashtags.AddRange(spark.Hashtags);
                 _context.Add(spark);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -26,14 +26,15 @@
         <div class="col-md-12">
             <form method="get" asp-action="Index">
                 <div class="input-group">
-                    <select class="form-select" name="selectedCategory" onchange="this.form.submit()">
-                        <option value="">All Categories</option>
+                    <select class="form-select" name="selectedCategory">
+                        <option value="all">All Categories</option>
                         @foreach (var category in categories)
                         {
                             <!option value="@category" @(selectedCategory.HasValue && selectedCategory.Value == category ? "selected" : "")>
                                 @category
                             </!option>
                         }
+    using System.Runtime.CompilerServices;
                     </select>
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </div>
@@ -42,52 +43,65 @@
     </div>
 </section>
 
-<div class="row">
-    @foreach (var spark in Model)
-    {
-        if (selectedCategory == null || spark.Category == selectedCategory)
+<div class="container">
+    <div class="row">
+        @foreach (var spark in Model)
         {
-            <div class="col-md-3 d-flex align-items-stretch mb-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-center mb-2">@spark.Name</h5>
-                        <p class="card-text flex-grow-1 mb-3 card-description">
-                            @spark.Description
-                        </p>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <p class="text-muted mb-0 me-3">@spark.Category</p>
-                            <div class="d-flex">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
+            if (selectedCategory == null || spark.Category == selectedCategory)
+            {
+                <div class="col-md-3 align-items-stretch mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-center mb-2">@spark.Name</h5>
+                            <p class="card-text flex-grow-1 mb-3 card-description">
+                                @spark.Description
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <p class="text-muted mb-0 me-3">@spark.Category</p>
+                                <div class="d-flex">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                </div>
                             </div>
-                        </div>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            //TODO: chave this line, because it's performance is going to be terrible. Need to have a ViewModel instead.
-                            var userSpark = spark.UserStatuses.FirstOrDefault(us => us.UserId.ToString() == User.FindFirstValue(ClaimTypes.NameIdentifier));
-                            if (userSpark != null)
-                            {
-                                <p class="text-muted text-center mt-2">Status: @userSpark.Status</p>
-                            }
 
-                            <div class="text-end mt-3">
-                                @if (userSpark != null)
+                            <div class="d-flex">
+                            @if (spark.Hashtags != null)
+                            {
+                                @foreach(var h in spark.Hashtags)
                                 {
-                                    <a asp-controller="Sparks" asp-action="Details" asp-route-id="@spark.Id" class="btn btn-outline-primary">Details</a>
+                                    <a asp-route-key="@h.Name" class="me-2 text-decoration-none">#@h.Name</a>
                                 }
-                                else
-                                {
-                                    <a asp-controller="Sparks" asp-action="Start" asp-route-id="@spark.Id" class="btn btn-success">Start</a>
-                                    <a asp-controller="Sparks" asp-action="Details" asp-route-id="@spark.Id" class="btn btn-outline-primary">Details</a>
-                                }
+                            }
                             </div>
-                        }
+
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                //TODO: chave this line, because it's performance is going to be terrible. Need to have a ViewModel instead.
+                                var userSpark = spark.UserStatuses.FirstOrDefault(us => us.UserId.ToString() == User.FindFirstValue(ClaimTypes.NameIdentifier));
+                                if (userSpark != null)
+                                {
+                                    <p class="text-muted text-center mt-2">Status: @userSpark.Status</p>
+                                }
+
+                                <div class="text-end mt-3">
+                                    @if (userSpark != null)
+                                    {
+                                        <a asp-controller="Sparks" asp-action="Details" asp-route-id="@spark.Id" class="btn btn-outline-primary">Details</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Sparks" asp-action="Start" asp-route-id="@spark.Id" class="btn btn-success">Start</a>
+                                        <a asp-controller="Sparks" asp-action="Details" asp-route-id="@spark.Id" class="btn btn-outline-primary">Details</a>
+                                    }
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         }
-    }
+    </div>
 </div>
