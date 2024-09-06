@@ -10,5 +10,6 @@ namespace CodeSparks.Data.Models
     [ForeignKey("Spark")]
     public required Guid SparkId {get; set;}
     public virtual Spark? Spark {get; set;}
+    public ICollection<Spark> Sparks { get; set; } = new List<Spark>();
     }
 }

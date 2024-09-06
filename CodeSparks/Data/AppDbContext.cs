@@ -27,5 +27,16 @@ namespace CodeSparks.Data
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Hashtag>()
+            .HasOne(h => h.Spark)
+            .WithMany(s => s.Hashtags)
+            .HasForeignKey(s => s.SparkId)
+            .IsRequired();
+        }
     }
 }

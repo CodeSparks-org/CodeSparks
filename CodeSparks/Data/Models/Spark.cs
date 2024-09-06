@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -39,6 +40,7 @@ namespace CodeSparks.Data.Models
     {
         Uncategorized = 0,
         Idea = 1,
+        [Display(Name ="Coding")]
         Coding = 2,
         Learning = 3,
         Beginner = 4,

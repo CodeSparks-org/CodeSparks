@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
 @inject SignInManager<AppUser> SignInManager
-@model List<Spark>
+@model ViewModel
 
 @{
     var categories = Enum.GetValues(typeof(SparkCategory)).Cast<SparkCategory>();
@@ -26,7 +26,10 @@
         <div class="col-md-12">
             <form method="get" asp-action="Index">
                 <div class="input-group">
-                    <select class="form-select" name="selectedCategory">
+                 @* <select id="spark-categories" asp-for="Category" asp-items="Html.GetEnumSelectList<SparkCategory>()"
+                    class="form-select @(Model.Category != SparkCategory.Uncategorized ? "pre-selected" : "")">
+                </select> *@
+                    @* <select class="form-select" name="selectedCategory">
                         <option value="all">All Categories</option>
                         @foreach (var category in categories)
                         {
@@ -35,7 +38,11 @@
                             </!option>
                         }
     using System.Runtime.CompilerServices;
-                    </select>
+                    </select> *@
+                 <select id="spark-categories" asp-for="@Model.SelectedCategory" asp-items="Html.GetEnumSelectList<SparkCategory>()"
+                    class="form-select @(Model.SelectedCategory != SparkCategory.Uncategorized ? "pre-selected" : "")" name="selectedCategory">
+                    <option value="all">All Categories</option>
+                </select>
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </div>
             </form>
@@ -43,9 +50,27 @@
     </div>
 </section>
 
+<section>
+    <div class="row">
+        <div class="col">
+            @* <select name="" id="">
+                <option value="all">All Categories</option>
+                @foreach (var category in @Model.Categories)
+                {
+                    <option>@category</option>
+                }
+            </select> *@
+                @* <select id="spark-categories" asp-for="@Model.Category" asp-items="Html.GetEnumSelectList<SparkCategory>()"
+                    class="form-select @(Model.Category != SparkCategory.Uncategorized ? "pre-selected" : "")">
+                    <option value="all">All Categories</option>
+                </select> *@
+        </div>
+    </div>
+</section>
+
 <div class="container">
     <div class="row">
-        @foreach (var spark in Model)
+        @foreach (var spark in @Model.Sparks)
         {
             if (selectedCategory == null || spark.Category == selectedCategory)
             {

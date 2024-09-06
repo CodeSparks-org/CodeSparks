@@ -11,6 +11,16 @@ using System.Collections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
+    public class ViewModel
+    {
+        [BindProperty]
+        public List<Spark> Sparks { get; set; } = [];
+        [BindProperty]
+        public IList<SparkCategory> Categories { get; set; } = [];
+        [BindProperty]
+        public SparkCategory? SelectedCategory {get; set;}
+    }
+
 namespace CodeSparks.Controllers
 {
     public class SparksController : Controller
@@ -25,9 +35,9 @@ namespace CodeSparks.Controllers
         {
             _context = context;
             _userManager = userManager;
-        }
+        } 
 
-        public async Task<IActionResult> Index(string? key = null, SparkCategory? category = null)
+        public async Task<IActionResult> Index(ViewModel model, string? key = null, SparkCategory? category = null)
         {
             
             IQueryable<Spark> sparks = _context.Sparks
@@ -35,24 +45,40 @@ namespace CodeSparks.Controllers
                 .Include(s => s.Hashtags)
                 .Where(s => s.IsPublic);
 
-            var model = await sparks.ToListAsync();
+            var allSparks = await sparks.ToListAsync();
             var selectedCategory = Request.Query["selectedCategory"];
 
-            if (selectedCategory.Any())
+            // var categories = Enum.GetValues(typeof(SparkCategory))
+            //              .Cast<SparkCategory>()
+            //              .Select(c => new SelectListItem
+            //              {
+            //                  Value = ((int)c).ToString(),
+            //                  Text = c.ToString()
+            //              })
+            //              .ToList();
+            // var sparkCategories = categories.Select(item => (SparkCategory)Enum.Parse(typeof(SparkCategory), item.Value)).ToList();
+
+            model.Sparks = allSparks;
+            // model.Categories = sparkCategories;
+
+            if (model.SelectedCategory != null)
             {
-                if (selectedCategory == "all")
+                var catName = model.SelectedCategory.ToString();
+
+                if (catName == "all")
                 {
-                    model = sparks.ToList();
+                    model.Sparks = sparks.ToList();
                 }
                 else
                 {
-                    model = sparks.Where(s => s.Category == Enum.Parse<SparkCategory>(selectedCategory)).ToList();
+                    if (catName != null)
+                        model.Sparks = sparks.Where(s => s.Category == Enum.Parse<SparkCategory>(catName)).ToList();
                 }
             }
-
-            if (model != null)
+    
+            if (allSparks != null)
             {
-                foreach(var spark in model)
+                foreach(var spark in allSparks)
                 {
                     var hashtags = _context.Hashtags.Where(h => h.SparkId == spark.Id).ToList();
                     spark.Hashtags = hashtags;
@@ -61,10 +87,9 @@ namespace CodeSparks.Controllers
 
             if (key != null)
             {
-                model = sparks.Where(s => s.Hashtags.Any(h => key == h.Name)).ToList();
+                model.Sparks = sparks.Where(s => s.Hashtags.Any(h => key == h.Name)).ToList();
             }
 
-            // ViewData["SelectedCategory"] = category;
             return View(model);
         }
 
@@ -152,21 +177,53 @@ namespace CodeSparks.Controllers
                 if (!string.IsNullOrEmpty(Hashtags))
                 {
                     spark.Id = Guid.NewGuid();
-                    spark.Hashtags = Hashtags.Split(',')
-                    .Where(h => !_context.Hashtags.Any(dbH => dbH.Name == h))
-                    .Select(h => {
-                        var hashtag = new Hashtag {
-                            Name = h.Trim(),
-                            SparkId = spark.Id,
-                        };
 
-                        return hashtag;
-                    })
-                    .DistinctBy(h => h.Name)
+                    // spark.Hashtags = Hashtags.Split(',')
+                    // .Where(h => !_context.Hashtags.Any(dbH => dbH.Name == h))
+                    // .Select(h => {
+                        // var hashtag = new Hashtag {
+                        //     Name = h.Trim(),
+                        //     SparkId = spark.Id,
+                        // };
+
+                    //     return hashtag;
+                    // })
+                    // .DistinctBy(h => h.Name)
+                    // .ToList();
+
+                    var hashtagList = Hashtags.Split(',')
+                    .Select(h => h.Trim())
+                    .Distinct()
                     .ToList();
+
+                    var existingHashtags = _context.Hashtags
+                        .Where(h => hashtagList.Contains(h.Name))
+                        .ToList();
+
+                    var newHashtags = hashtagList
+                        .Where(h => !existingHashtags.Any(dbH => dbH.Name == h))
+                        .Select(h => {
+                            var hashtag = new Hashtag {
+                                Name = h.Trim(),
+                                SparkId = spark.Id,
+                            };
+
+                            return hashtag;
+                        })
+                        .ToList();
+
+                    var allH = existingHashtags.Concat(newHashtags).ToList();
+
+                    foreach (var hashtag in allH)
+                    {
+                        hashtag.Sparks.Add(spark);
+                        spark.Hashtags.Add(hashtag);
+                    }
+
+                    _context.Hashtags.AddRange(newHashtags);
                 }
 
-                _context.Hashtags.AddRange(spark.Hashtags);
+                // _context.Hashtags.AddRange(spark.Hashtags);
                 _context.Add(spark);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
