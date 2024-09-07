@@ -2,37 +2,24 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using System.Xml;
 using CodeSparks.Data;
 using CodeSparks.Data.Models;
+using CodeSparks.Migrations;
 using CodeSparks.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Build.Framework;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-
         private readonly AppDbContext _context;
         public UserManager<AppUser> _userManager;
         public SignInManager<AppUser> _signInManager;
         public ISocialNetworkService _socialNetworkService;
-        public IEnumerable<SocialNetwork> SocialNetworks;
-
-        [BindProperty]
-        public AppUser LoggedUser { get; set; }
-
-        [BindProperty]
-        public IList<SocialLink> UserSocialLinks { get; set; }
 
         public IndexModel(
             AppDbContext context,
@@ -79,15 +66,23 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            public AppUser CurrentUser { get; set; }
+            public IList<SocialLink> UserSocialLinks { get; set; }
         }
 
         private async Task LoadAsync(AppUser user)
         {
-            var socialLinks = _socialNetworkService.GetSocialNetworkList();
-            var linkList = new List<SocialLink>();
-            UserSocialLinks = [];
+            Input = new InputModel
+            {
+                CurrentUser = await _context.Users.Include(u => u.SocialLinks)
+                .SingleOrDefaultAsync(u => u.Id == user.Id),
+            };
 
-            LoggedUser = await _userManager.Users
+            var socialLinks = _socialNetworkService.GetSocialNetworkList();
+            Input.UserSocialLinks = [];
+
+            Input.CurrentUser = await _userManager.Users
               .Where(u => u.Id == user.Id)
               .Select(u => new AppUser
               {
@@ -95,13 +90,13 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
                   UserName = user.UserName,
                   Name = user.Name,
                   Description = u.Description,
-                  Links = u.Links.ToList()
+                  SocialLinks = u.SocialLinks.ToList()
               })
               .SingleOrDefaultAsync();
 
             foreach (var link in socialLinks)
             {
-                var userLink = LoggedUser.Links.FirstOrDefault(l => l.Name == link.Name);
+                var userLink = Input.CurrentUser.SocialLinks.FirstOrDefault(l => l.Name == link.Name);
                 var l = new SocialLink
                 {
                     Id = userLink != null ? userLink.Id : Guid.NewGuid(),
@@ -110,14 +105,13 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
                     Url = userLink != null ? userLink.Url : ""
                 };
 
-                UserSocialLinks.Add(l);
+                Input.UserSocialLinks.Add(l);
             }
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -131,8 +125,8 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
         {
             var user = await _userManager.GetUserAsync(User);
             user.UserName = user.UserName;
-            user.Name = LoggedUser.Name;
-            user.Description = LoggedUser.Description;
+            user.Name = Input.CurrentUser.Name;
+            user.Description = Input.CurrentUser.Description;
 
             if (user == null)
             {
@@ -145,7 +139,7 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
                   .Where(l => l.UserId == user.Id)
                   .ToListAsync();
 
-                foreach (var link in UserSocialLinks)
+                foreach (var link in Input.UserSocialLinks)
                 {
                     var userLink = userLinks.FirstOrDefault(l => l.Id == link.Id);
 
@@ -169,7 +163,6 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
                 }
 
                 _context.Update(user);
-
                 await _context.SaveChangesAsync();
             }
 

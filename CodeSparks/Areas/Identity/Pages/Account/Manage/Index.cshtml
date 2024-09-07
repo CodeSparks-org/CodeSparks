@@ -2,7 +2,6 @@
 @using CodeSparks.Services
 @model IndexModel
 @inject ISocialNetworkService SocialNetworkService
-@* @model AppUser *@
 
 @{
     ViewData["Title"] = "Profile";
@@ -10,87 +9,86 @@
 }
 
 @section HeadStyles {
-  <link rel="stylesheet" href="~/css/profile.css">
+    <link rel="stylesheet" href="~/css/profile.css">
 }
-
-<div class="container-fluid">
-  <div class="row mb-3">
-    <div class="col">
-      <h3>@ViewData["Title"]</h3>
-    </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col-md-4">
-      <div class="d-flex justify-content-between">
-        <div class="d-flex align-items-center">
-          <div class="profile-image align-items-center">
-            <img src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg" alt="">
-          </div>
-          <div class="profile-text">
-            <span>@Model.LoggedUser.UserName</span>
-            <div class="d-flex">
-              <span class="me-2">Level: 1</span>
-              <span>XP: 100</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div>
-        <form class="form-inline mt-2" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-          <button type="submit" class="btn btn-lg btn-dark float-end">Logout</button>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      <form method="post" id="profile-form">
-        <div class="f-field-row mb-0">
-          <h3 class="ch3">General</h3>
-        </div>
-        <div class="f-field-row">
-          <label class="input-label" for="profile-username">Name</label>
-          <input asp-for="@Model.LoggedUser.Name" id="profile-username" class="f-input" type="text" placeholder="Your name">
-        </div>
-        <div class="f-field-row">
-          <label class="input-label" for="profile-description">Description</label>
-          <textarea asp-for="@Model.LoggedUser.Description" id="profile-description" class="f-textarea" placeholder="Write about yourself"></textarea>
-        </div>
-        <div class="f-field-row">
-          <h3 class="ch3">Links</h3>
-             @for (var i = 0; i < Model.UserSocialLinks.Count; i++)
-            {
-                <div class="f-field-row">
-                  <div class="d-flex">
-                    <div class="circled-img-container me-2">
-                      <img src="@SocialNetworkService.GetSocialNetworkList().FirstOrDefault(l => l.Name == @Model.UserSocialLinks[i].Name)?.IconUrl" alt="">
-                    </div>
-                    <input type="text" asp-for="UserSocialLinks[i].Id" readonly hidden />
-                    <input type="text" asp-for="UserSocialLinks[i].Name" readonly hidden />
-                    <input
-                      type="text"
-                      id="profile-social"
-                      placeholder="Add link"
-                      class="f-input"
-                      asp-for="UserSocialLinks[i].Url">
-                  </div>
-              </div>
-            }
-        </div>
-        <div id="profile-action-btns" class="mt-3">
-          <div class="d-flex justify-content-center">
-             <button type="submit" id="profile-save-btn" class="main-btn me-4">
-              <span class="text">Save</span>
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col">
+            <h3>@ViewData["Title"]</h3>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex align-items-center">
+                    <div class="profile-image align-items-center">
+                        <img src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg" alt="">
+                    </div>
+                    <div class="profile-text">
+                        <span>@Model.Input.CurrentUser.UserName</span>
+                        <div class="d-flex">
+                            <span class="me-2">Level: 1</span>
+                            <span>XP: 100</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <form class="form-inline mt-2" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="btn btn-lg btn-dark float-end">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" id="profile-form">
+                <div class="f-field-row mb-0">
+                    <h3 class="ch3">General</h3>
+                </div>
+                <div class="f-field-row">
+                    <label class="input-label" for="profile-username">Name</label>
+                    <input asp-for="@Model.Input.CurrentUser.Name" id="profile-username" class="f-input" type="text" placeholder="Your name">
+                </div>
+                <div class="f-field-row">
+                    <label class="input-label" for="profile-description">Description</label>
+                    <textarea asp-for="@Model.Input.CurrentUser.Description" id="profile-description" class="f-textarea" placeholder="Write about yourself"></textarea>
+                </div>
+                <div class="f-field-row">
+                    <h3 class="ch3">Links</h3>
+                    @for (var i = 0; i < Model.Input.UserSocialLinks.Count; i++)
+                    {
+                        <div class="f-field-row">
+                            <div class="d-flex">
+                                <div class="circled-img-container me-2">
+                                    <img src="@SocialNetworkService.GetSocialNetworkList().FirstOrDefault(l => l.Name == @Model.Input.UserSocialLinks[i].Name)?.IconUrl" alt="">
+                                </div>
+                                <input type="text" asp-for="Input.UserSocialLinks[i].Id" readonly hidden />
+                                <input type="text" asp-for="Input.UserSocialLinks[i].Name" readonly hidden />
+                                <input type="text"
+                                       id="profile-social"
+                                       placeholder="Add link"
+                                       class="f-input"
+                                       asp-for="Input.UserSocialLinks[i].Url">
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div id="profile-action-btns" class="mt-3">
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" id="profile-save-btn" class="main-btn me-4">
+                            <span class="text">Save</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
