@@ -68,7 +68,7 @@
                         <div class="f-field-row">
                             <div class="d-flex">
                                 <div class="circled-img-container me-2">
-                                    <img src="@SocialNetworkService.GetSocialNetworkList().FirstOrDefault(l => l.Name == @Model.Input.UserSocialLinks[i].Name)?.IconUrl" alt="">
+                                    <img src="@SocialNetworkService.GetSocialNetworks().FirstOrDefault(l => l.Name == @Model.Input.UserSocialLinks[i].Name)?.IconUrl" alt="">
                                 </div>
                                 <input type="text" asp-for="Input.UserSocialLinks[i].Id" readonly hidden />
                                 <input type="text" asp-for="Input.UserSocialLinks[i].Name" readonly hidden />

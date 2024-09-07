@@ -77,35 +77,22 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
             {
                 CurrentUser = await _context.Users.Include(u => u.SocialLinks)
                 .SingleOrDefaultAsync(u => u.Id == user.Id),
+                UserSocialLinks = new List<SocialLink>()
             };
 
-            var socialLinks = _socialNetworkService.GetSocialNetworkList();
-            Input.UserSocialLinks = [];
-
-            Input.CurrentUser = await _userManager.Users
-              .Where(u => u.Id == user.Id)
-              .Select(u => new AppUser
-              {
-                  Id = user.Id,
-                  UserName = user.UserName,
-                  Name = user.Name,
-                  Description = u.Description,
-                  SocialLinks = u.SocialLinks.ToList()
-              })
-              .SingleOrDefaultAsync();
-
-            foreach (var link in socialLinks)
+            var socialNetworks = _socialNetworkService.GetSocialNetworks();
+            foreach (var social in socialNetworks)
             {
-                var userLink = Input.CurrentUser.SocialLinks.FirstOrDefault(l => l.Name == link.Name);
-                var l = new SocialLink
+                var userLink = Input.CurrentUser.SocialLinks.SingleOrDefault(l => l.Name == social.Name);
+                var link = new SocialLink
                 {
-                    Id = userLink != null ? userLink.Id : Guid.NewGuid(),
-                    UserId = userLink != null ? userLink.UserId : user.Id,
-                    Name = userLink != null ? link.Name : link.Name,
-                    Url = userLink != null ? userLink.Url : ""
+                    Id = userLink?.Id ?? Guid.NewGuid(),
+                    UserId = userLink?.UserId ?? user.Id,
+                    Name = social?.Name ?? social.Name,
+                    Url = userLink?.Url ?? ""
                 };
 
-                Input.UserSocialLinks.Add(l);
+                Input.UserSocialLinks.Add(link);
             }
         }
 
@@ -139,11 +126,11 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
                   .Where(l => l.UserId == user.Id)
                   .ToListAsync();
 
-                foreach (var link in Input.UserSocialLinks)
+                foreach (var linkInput in Input.UserSocialLinks)
                 {
-                    var userLink = userLinks.FirstOrDefault(l => l.Id == link.Id);
+                    var userLink = userLinks.FirstOrDefault(l => l.Id == linkInput.Id);
 
-                    if (link.Url == null)
+                    if (linkInput.Url == null)
                     {
                         _context.SocialLinks.Remove(userLink);
                     }
@@ -151,13 +138,13 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
                     {
                         if (userLink != null)
                         {
-                            userLink.Url = link.Url;
+                            userLink.Url = linkInput.Url;
                             _context.SocialLinks.Update(userLink);
                         }
                         else
                         {
-                            link.UserId = user.Id;
-                            _context.SocialLinks.Add(link);
+                            linkInput.UserId = user.Id;
+                            _context.SocialLinks.Add(linkInput);
                         }
                     }
                 }
