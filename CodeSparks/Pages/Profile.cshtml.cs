@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using CodeSparks.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using CodeSparks.Services;
 
 namespace CodeSparks.Pages
 {
@@ -23,7 +24,7 @@ namespace CodeSparks.Pages
         private readonly IBadgeRepository _badgeRepository;
 
         public ISocialNetworkService _networkLinksService;
-        public IList<PlatformLink> UserLinks = [];
+        public IList<SocialLink> UserLinks = [];
 
         public ProfileModel(
             AppDbContext context,
@@ -59,7 +60,7 @@ namespace CodeSparks.Pages
 
             foreach(var link in networkLinks)
             {
-                var l = new PlatformLink {
+                var l = new SocialLink {
                     Name = link.Name,
                     Url = ""
                 };

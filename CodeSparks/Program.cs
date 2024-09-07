@@ -1,6 +1,7 @@
 using CodeSparks.Data;
 using CodeSparks.Data.Models;
 using CodeSparks.Data.Seed;
+using CodeSparks.Services;
 using CodeSparks.Services.Repositories;
 using CodeSparks.Temp;
 using Microsoft.AspNetCore.Authentication.Cookies;
