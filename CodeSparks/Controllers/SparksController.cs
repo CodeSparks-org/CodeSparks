@@ -25,7 +25,7 @@ namespace CodeSparks.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(string? key = null, SparkCategory? category = null)
+        public async Task<IActionResult> Index(string? hashtagFilter = null, SparkCategory? category = null)
         {
             
             IQueryable<Spark> sparks = _context.Sparks
@@ -34,9 +34,9 @@ namespace CodeSparks.Controllers
                 .Where(s => s.IsPublic);
 
             var model = await sparks.ToListAsync();
-            var selectedCategory = Request.Query["selectedCategory"];
+            var selectedCategory = (string?)Request.Query["selectedCategory"];
 
-            if (selectedCategory.Any())
+            if (!string.IsNullOrEmpty(selectedCategory))
             {
                 if (selectedCategory == "all")
                 {
@@ -44,7 +44,9 @@ namespace CodeSparks.Controllers
                 }
                 else
                 {
-                    model = sparks.Where(s => s.Category == Enum.Parse<SparkCategory>(selectedCategory)).ToList();
+                    model = sparks
+                        .Where(s => s.Category == Enum.Parse<SparkCategory>(selectedCategory))
+                        .ToList();
                 }
             }
 
@@ -57,9 +59,9 @@ namespace CodeSparks.Controllers
                 }
             }
 
-            if (key != null)
+            if (hashtagFilter != null)
             {
-                model = sparks.Where(s => s.Hashtags.Any(h => key == h.Name)).ToList();
+                model = sparks.Where(s => s.Hashtags.Any(h => hashtagFilter == h.Name)).ToList();
             }
 
             // ViewData["SelectedCategory"] = category;

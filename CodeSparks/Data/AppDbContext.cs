@@ -18,7 +18,7 @@ namespace CodeSparks.Data
         public DbSet<UserSkill> UserSkills { get; set; }
         public DbSet<SparkComment> SparkComments { get; set; }
         public DbSet<SparkUserStatus> SparkStatuses { get; set; }
-        public DbSet<PlatformLink> PlatformLinks { get; set; }
+        public DbSet<SocialLink> PlatformLinks { get; set; }
         public DbSet<Hashtag> Hashtags { get; set; }
 
 
