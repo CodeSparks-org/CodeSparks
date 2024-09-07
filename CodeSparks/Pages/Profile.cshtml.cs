@@ -55,7 +55,7 @@ namespace CodeSparks.Pages
         }
         private async Task LoadAsync(AppUser user)
         {
-            var networkLinks = _networkLinksService.GetSocialNetworkList();
+            var networkLinks = _networkLinksService.GetSocialNetworks();
             UserLinks = [];
 
             foreach(var link in networkLinks)

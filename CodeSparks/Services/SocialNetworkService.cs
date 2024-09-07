@@ -2,12 +2,12 @@ namespace CodeSparks.Services
 {
     public interface ISocialNetworkService
     {
-        IEnumerable<SocialNetwork> GetSocialNetworkList();
+        IEnumerable<SocialNetwork> GetSocialNetworks();
     }
 
     public class SocialNetworkService : ISocialNetworkService
     {
-        public IEnumerable<SocialNetwork> GetSocialNetworkList()
+        public IEnumerable<SocialNetwork> GetSocialNetworks()
         {
             return
             [
