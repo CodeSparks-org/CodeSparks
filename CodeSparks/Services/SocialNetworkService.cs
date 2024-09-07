@@ -11,8 +11,8 @@ namespace CodeSparks.Services
         {
             return
             [
-              new() { Name = "Github", IconUrl = "/img/social/github.png"},
-          new() { Name = "Linkedin", IconUrl = "/img/social/linkedin.png"}
+                new() { Name = "Github", IconUrl = "/img/social/github.png"},
+                new() { Name = "Linkedin", IconUrl = "/img/social/linkedin.png"}
             ];
         }
     }
