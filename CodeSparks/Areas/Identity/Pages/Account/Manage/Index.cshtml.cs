@@ -141,7 +141,7 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 
             if (ModelState.IsValid)
             {
-                var userLinks = await _context.PlatformLinks
+                var userLinks = await _context.SocialLinks
                   .Where(l => l.UserId == user.Id)
                   .ToListAsync();
 
@@ -151,19 +151,19 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 
                     if (link.Url == null)
                     {
-                        _context.PlatformLinks.Remove(userLink);
+                        _context.SocialLinks.Remove(userLink);
                     }
                     else
                     {
                         if (userLink != null)
                         {
                             userLink.Url = link.Url;
-                            _context.PlatformLinks.Update(userLink);
+                            _context.SocialLinks.Update(userLink);
                         }
                         else
                         {
                             link.UserId = user.Id;
-                            _context.PlatformLinks.Add(link);
+                            _context.SocialLinks.Add(link);
                         }
                     }
                 }

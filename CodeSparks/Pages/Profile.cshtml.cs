@@ -67,7 +67,7 @@ namespace CodeSparks.Pages
 
                 UserLinks.Add(l);
             }
-            var links = await _context.PlatformLinks.Where(l => l.UserId == user.Id).ToListAsync();
+            var links = await _context.SocialLinks.Where(l => l.UserId == user.Id).ToListAsync();
 
             foreach(var link in UserLinks)
             {
