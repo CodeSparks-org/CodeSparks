@@ -18,9 +18,6 @@ namespace CodeSparks.Controllers
         private readonly AppDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
-        [BindProperty]
-        public string Hashtags { get; set; } = string.Empty;
-        public string SelectedCategory { get; set; } = string.Empty;
         public SparksController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
@@ -149,10 +146,10 @@ namespace CodeSparks.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(Hashtags))
+                if (!string.IsNullOrEmpty(spark.HashtagList))
                 {
                     spark.Id = Guid.NewGuid();
-                    spark.Hashtags = Hashtags.Split(',')
+                    spark.Hashtags = spark.HashtagList.Split(',')
                     .Where(h => !_context.Hashtags.Any(dbH => dbH.Name == h))
                     .Select(h => {
                         var hashtag = new Hashtag {
