@@ -10,6 +10,7 @@ using CodeSparks.Data.Models;
 using System.Collections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using CodeSparks.ViewModels;
 
 namespace CodeSparks.Controllers
 {
@@ -127,7 +128,7 @@ namespace CodeSparks.Controllers
         // GET: Sparks/Create
         public IActionResult Create(SparkCategory? category = null)
         {
-            var spark = new Spark { IsPublic = true, Name = "", Description = "" };
+            var spark = new SparkInput { IsPublic = true, Name = "", Description = "" };
 
             if (category.HasValue)
             {
@@ -142,14 +143,23 @@ namespace CodeSparks.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Spark spark)
+        public async Task<IActionResult> Create(SparkInput sparkInput)
         {
+            var spark = new Spark  //TODO: change to automapper in future.
+            {
+                Id = Guid.NewGuid(),
+                Description = sparkInput.Description,
+                Name = sparkInput.Name,
+                Category = sparkInput.Category,
+                IsPublic = sparkInput.IsPublic,
+                Url = sparkInput.Url
+            };
+
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(spark.HashtagList))
+                if (!string.IsNullOrEmpty(sparkInput.HashtagList))
                 {
-                    spark.Id = Guid.NewGuid();
-                    spark.Hashtags = spark.HashtagList.Split(',')
+                    var hashtags = sparkInput.HashtagList.Split(',')
                     .Where(h => !_context.Hashtags.Any(dbH => dbH.Name == h))
                     .Select(h => {
                         var hashtag = new Hashtag {
@@ -161,13 +171,15 @@ namespace CodeSparks.Controllers
                     })
                     .DistinctBy(h => h.Name)
                     .ToList();
+
+                    _context.Hashtags.AddRange(hashtags);
                 }
 
-                _context.Hashtags.AddRange(spark.Hashtags);
                 _context.Add(spark);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(spark);
         }
 

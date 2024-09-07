@@ -32,7 +32,6 @@ namespace CodeSparks.Data.Models
         public virtual ICollection<SparkComment> Comments { get; set; } = new List<SparkComment>();
         public virtual ICollection<SparkUserStatus> UserStatuses { get; set; } = new List<SparkUserStatus>();
         public virtual ICollection<Hashtag> Hashtags { get; set; } = new List<Hashtag>();
-        public string HashtagList {get; set;} = string.Empty;
     }
 
     public enum SparkCategory
