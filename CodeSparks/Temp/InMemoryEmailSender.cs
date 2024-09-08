@@ -16,8 +16,8 @@ namespace CodeSparks.Temp
 
     public class EmailMessage
     {
-        public string Email { get; set; }
-        public string Subject { get; set; }
-        public string HtmlMessage { get; set; }
+        public required string Email { get; set; }
+        public required string Subject { get; set; }
+        public required string HtmlMessage { get; set; }
     }
 }
