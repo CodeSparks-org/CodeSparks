@@ -48,9 +48,12 @@ namespace CodeSparks.Services.Repositories
 
         public async Task<List<AppUser>> GetAllUsers()
         {
-            var adminRole = await _roleManager.Roles.SingleOrDefaultAsync(r => r.Name == "Admin");
+            var adminRole = await _roleManager.Roles
+                .Where(r => r.Name == "Admin")
+                .Select(r => r.Id)
+                .SingleOrDefaultAsync();
             var adminUserIds = await _context.UserRoles
-                                        .Where(ur => ur.RoleId == adminRole.Id)
+                                        .Where(ur => ur.RoleId == adminRole)
                                         .Select(ur => ur.UserId)
                                         .ToListAsync();
 

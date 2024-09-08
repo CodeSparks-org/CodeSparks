@@ -111,7 +111,6 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            user.UserName = user.UserName;
             user.Name = Input.CurrentUser.Name;
             user.Description = Input.CurrentUser.Description;
 
