@@ -33,7 +33,7 @@ namespace CodeSparks.Controllers
             return View(quests);
         }
 
-        public async Task<IActionResult> Start(Guid id)
+        public IActionResult Start(Guid id)
         {
             return View();
         }

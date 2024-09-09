@@ -17,7 +17,7 @@ namespace CodeSparks.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             // leave this action simple, so anyone can run it?
             // or add details that it was run in debug mode, check if connectionstring is present

@@ -2,44 +2,32 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using System.Xml;
 using CodeSparks.Data;
 using CodeSparks.Data.Models;
+using CodeSparks.Migrations;
+using CodeSparks.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Build.Framework;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeSparks.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-        
         private readonly AppDbContext _context;
         public UserManager<AppUser> _userManager;
         public SignInManager<AppUser> _signInManager;
-        public ISocialNetworkService _networkLinksService;
-        public IEnumerable<SocialNetwork> SocialNetworks;
-
-        [BindProperty]
-        public AppUser LoggedUser {get; set;}
-
-        [BindProperty]
-        public IList<PlatformLink> UserNetworkLinks {get; set;}
+        public ISocialNetworkService _socialNetworkService;
 
         public IndexModel(
             AppDbContext context,
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            ISocialNetworkService service)
+            ISocialNetworkService socialNetworkService)
         {
-           _networkLinksService = service;
+            _socialNetworkService = socialNetworkService;
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
@@ -78,44 +66,39 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            public AppUser CurrentUser { get; set; }
+            public IList<SocialLink> UserSocialLinks { get; set; }
         }
 
         private async Task LoadAsync(AppUser user)
         {
-            var networkLinks = _networkLinksService.GetSocialNetworkList();
-            var linkList = new List<PlatformLink>();
-            UserNetworkLinks = [];
-
-            LoggedUser = await _userManager.Users
-              .Where(u => u.Id == user.Id)
-              .Select(u => new AppUser {
-                Id = user.Id,
-                UserName = user.UserName,
-                Name = user.Name,
-                Description = u.Description,
-                Links = u.Links.ToList()
-              })
-              .SingleOrDefaultAsync();
-
-            foreach(var link in networkLinks)
+            Input = new InputModel
             {
-              var userLink = LoggedUser.Links.FirstOrDefault(l => l.Name == link.Name);
-              
-              var l = new PlatformLink {
-                Id = userLink != null ? userLink.Id : Guid.NewGuid(),
-                UserId = userLink != null ? userLink.UserId : user.Id,
-                Name = userLink != null ? link.Name : link.Name,
-                Url = userLink != null ? userLink.Url : ""
-              };
+                CurrentUser = await _context.Users.Include(u => u.SocialLinks)
+                .SingleOrDefaultAsync(u => u.Id == user.Id),
+                UserSocialLinks = new List<SocialLink>()
+            };
 
-              UserNetworkLinks.Add(l);
+            var socialNetworks = _socialNetworkService.GetSocialNetworks();
+            foreach (var social in socialNetworks)
+            {
+                var userLink = Input.CurrentUser.SocialLinks.SingleOrDefault(l => l.Name == social.Name);
+                var link = new SocialLink
+                {
+                    Id = userLink?.Id ?? Guid.NewGuid(),
+                    UserId = userLink?.UserId ?? user.Id,
+                    Name = social?.Name ?? social.Name,
+                    Url = userLink?.Url ?? ""
+                };
+
+                Input.UserSocialLinks.Add(link);
             }
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -128,44 +111,45 @@ namespace CodeSparks.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            user.UserName = user.UserName;
-            user.Name = LoggedUser.Name;
-            user.Description = LoggedUser.Description;
+            user.Name = Input.CurrentUser.Name;
+            user.Description = Input.CurrentUser.Description;
 
-            if (user == null) {
-              return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (ModelState.IsValid)
             {
-              var userLinks = await _context.PlatformLinks
-                .Where(l => l.UserId == user.Id)
-                .ToListAsync();
+                var userLinks = await _context.SocialLinks
+                  .Where(l => l.UserId == user.Id)
+                  .ToListAsync();
 
-              foreach(var link in UserNetworkLinks)
-              {
-                var userLink = userLinks.FirstOrDefault(l => l.Id == link.Id);
-
-                if (link.Url == null)
+                foreach (var linkInput in Input.UserSocialLinks)
                 {
-                  _context.PlatformLinks.Remove(userLink);
-                } else {
-                  if (userLink != null)
-                  {
-                    userLink.Url = link.Url;
-                    _context.PlatformLinks.Update(userLink);
-                  }
-                  else
-                  {
-                    link.UserId = user.Id;
-                    _context.PlatformLinks.Add(link);
-                  }
+                    var userLink = userLinks.FirstOrDefault(l => l.Id == linkInput.Id);
+
+                    if (linkInput.Url == null)
+                    {
+                        _context.SocialLinks.Remove(userLink);
+                    }
+                    else
+                    {
+                        if (userLink != null)
+                        {
+                            userLink.Url = linkInput.Url;
+                            _context.SocialLinks.Update(userLink);
+                        }
+                        else
+                        {
+                            linkInput.UserId = user.Id;
+                            _context.SocialLinks.Add(linkInput);
+                        }
+                    }
                 }
-              }
 
-              _context.Update(user);
-
-              await _context.SaveChangesAsync();
+                _context.Update(user);
+                await _context.SaveChangesAsync();
             }
 
             return RedirectToPage();

@@ -10,6 +10,7 @@ using CodeSparks.Data.Models;
 using System.Collections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using CodeSparks.ViewModels;
 
     public class ViewModel
     {
@@ -28,16 +29,13 @@ namespace CodeSparks.Controllers
         private readonly AppDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
-        [BindProperty]
-        public string Hashtags { get; set; } = string.Empty;
-        public string SelectedCategory { get; set; } = string.Empty;
         public SparksController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         } 
 
-        public async Task<IActionResult> Index(ViewModel model, string? key = null, SparkCategory? category = null)
+        public async Task<IActionResult> Index(string? hashtagFilter = null, SparkCategory? category = null)
         {
             
             IQueryable<Spark> sparks = _context.Sparks
@@ -45,49 +43,26 @@ namespace CodeSparks.Controllers
                 .Include(s => s.Hashtags)
                 .Where(s => s.IsPublic);
 
-            var allSparks = await sparks.ToListAsync();
-            var selectedCategory = Request.Query["selectedCategory"];
+            var model = await sparks.ToListAsync();
+            var selectedCategory = (string?)Request.Query["selectedCategory"];
 
-            // var categories = Enum.GetValues(typeof(SparkCategory))
-            //              .Cast<SparkCategory>()
-            //              .Select(c => new SelectListItem
-            //              {
-            //                  Value = ((int)c).ToString(),
-            //                  Text = c.ToString()
-            //              })
-            //              .ToList();
-            // var sparkCategories = categories.Select(item => (SparkCategory)Enum.Parse(typeof(SparkCategory), item.Value)).ToList();
-
-            model.Sparks = allSparks;
-            // model.Categories = sparkCategories;
-
-            if (model.SelectedCategory != null)
+            if (!string.IsNullOrEmpty(selectedCategory))
             {
-                var catName = model.SelectedCategory.ToString();
-
-                if (catName == "all")
+                if (selectedCategory == "all")
                 {
-                    model.Sparks = sparks.ToList();
+                    model = sparks.ToList();
                 }
                 else
                 {
-                    if (catName != null)
-                        model.Sparks = sparks.Where(s => s.Category == Enum.Parse<SparkCategory>(catName)).ToList();
-                }
-            }
-    
-            if (allSparks != null)
-            {
-                foreach(var spark in allSparks)
-                {
-                    var hashtags = _context.Hashtags.Where(h => h.SparkId == spark.Id).ToList();
-                    spark.Hashtags = hashtags;
+                    model = sparks
+                        .Where(s => s.Category == Enum.Parse<SparkCategory>(selectedCategory))
+                        .ToList();
                 }
             }
 
-            if (key != null)
+            if (hashtagFilter != null)
             {
-                model.Sparks = sparks.Where(s => s.Hashtags.Any(h => key == h.Name)).ToList();
+                model = sparks.Where(s => s.Hashtags.Any(h => hashtagFilter == h.Name)).ToList();
             }
 
             return View(model);
@@ -155,7 +130,7 @@ namespace CodeSparks.Controllers
         // GET: Sparks/Create
         public IActionResult Create(SparkCategory? category = null)
         {
-            var spark = new Spark { IsPublic = true, Name = "", Description = "" };
+            var spark = new SparkInput { IsPublic = true, Name = "", Description = "" };
 
             if (category.HasValue)
             {
@@ -170,64 +145,43 @@ namespace CodeSparks.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Spark spark)
+        public async Task<IActionResult> Create(SparkInput sparkInput)
         {
+            var spark = new Spark  //TODO: change to automapper in future.
+            {
+                Id = Guid.NewGuid(),
+                Description = sparkInput.Description,
+                Name = sparkInput.Name,
+                Category = sparkInput.Category,
+                IsPublic = sparkInput.IsPublic,
+                Url = sparkInput.Url
+            };
+
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(Hashtags))
+                if (!string.IsNullOrEmpty(sparkInput.HashtagList))
                 {
-                    spark.Id = Guid.NewGuid();
+                    var hashtags = sparkInput.HashtagList.Split(',')
+                    .Where(h => !_context.Hashtags.Any(dbH => dbH.Name == h))
+                    .Select(h => {
+                        var hashtag = new Hashtag {
+                            Name = h.Trim(),
+                            SparkId = spark.Id,
+                        };
 
-                    // spark.Hashtags = Hashtags.Split(',')
-                    // .Where(h => !_context.Hashtags.Any(dbH => dbH.Name == h))
-                    // .Select(h => {
-                        // var hashtag = new Hashtag {
-                        //     Name = h.Trim(),
-                        //     SparkId = spark.Id,
-                        // };
-
-                    //     return hashtag;
-                    // })
-                    // .DistinctBy(h => h.Name)
-                    // .ToList();
-
-                    var hashtagList = Hashtags.Split(',')
-                    .Select(h => h.Trim())
-                    .Distinct()
+                        return hashtag;
+                    })
+                    .DistinctBy(h => h.Name)
                     .ToList();
 
-                    var existingHashtags = _context.Hashtags
-                        .Where(h => hashtagList.Contains(h.Name))
-                        .ToList();
-
-                    var newHashtags = hashtagList
-                        .Where(h => !existingHashtags.Any(dbH => dbH.Name == h))
-                        .Select(h => {
-                            var hashtag = new Hashtag {
-                                Name = h.Trim(),
-                                SparkId = spark.Id,
-                            };
-
-                            return hashtag;
-                        })
-                        .ToList();
-
-                    var allH = existingHashtags.Concat(newHashtags).ToList();
-
-                    foreach (var hashtag in allH)
-                    {
-                        hashtag.Sparks.Add(spark);
-                        spark.Hashtags.Add(hashtag);
-                    }
-
-                    _context.Hashtags.AddRange(newHashtags);
+                    _context.Hashtags.AddRange(hashtags);
                 }
 
-                // _context.Hashtags.AddRange(spark.Hashtags);
                 _context.Add(spark);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(spark);
         }
 
