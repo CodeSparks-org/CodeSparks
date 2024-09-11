@@ -19,6 +19,6 @@ namespace CodeSparks.ViewModels
         [MaxLength(250)]
         public string? Url { get; set; }
 
-        public string HashtagList { get; set; } = string.Empty;
+        public string? HashtagList { get; set; }
     }
 }

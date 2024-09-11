@@ -25,7 +25,7 @@ namespace CodeSparks.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(string? hashtagFilter = null, SparkCategory? category = null)
+        public async Task<IActionResult> Index(string? hashtagFilter = null, SparkCategory? selectedCategory = null)
         {
             
             IQueryable<Spark> sparks = _context.Sparks
@@ -33,38 +33,19 @@ namespace CodeSparks.Controllers
                 .Include(s => s.Hashtags)
                 .Where(s => s.IsPublic);
 
-            var model = await sparks.ToListAsync();
-            var selectedCategory = (string?)Request.Query["selectedCategory"];
-
-            if (!string.IsNullOrEmpty(selectedCategory))
+            if (selectedCategory != null)
             {
-                if (selectedCategory == "all")
-                {
-                    model = sparks.ToList();
-                }
-                else
-                {
-                    model = sparks
-                        .Where(s => s.Category == Enum.Parse<SparkCategory>(selectedCategory))
-                        .ToList();
-                }
-            }
-
-            if (model != null)
-            {
-                foreach(var spark in model)
-                {
-                    var hashtags = _context.Hashtags.Where(h => h.SparkId == spark.Id).ToList();
-                    spark.Hashtags = hashtags;
-                }
+                sparks = sparks
+                        .Where(s => s.Category == selectedCategory);
             }
 
             if (hashtagFilter != null)
             {
-                model = sparks.Where(s => s.Hashtags.Any(h => hashtagFilter == h.Name)).ToList();
+                sparks = sparks.Where(s => s.Hashtags.Any(h => hashtagFilter == h.Name));
             }
 
-            // ViewData["SelectedCategory"] = category;
+            ViewData["SelectedCategory"] = selectedCategory;
+            var model = await sparks.ToListAsync();
             return View(model);
         }
 
@@ -182,7 +163,7 @@ namespace CodeSparks.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(spark);
+            return View(sparkInput);
         }
 
         // GET: Sparks/Edit/5

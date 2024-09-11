@@ -43,7 +43,7 @@
                 <input asp-for="Name" class="form-control create-spark-field" autofocus />
                 <span asp-validation-for="Name" class="text-danger"></span>
                 <small class="form-text text-muted d-block">
-                 Type a name that represents the goal of your <span id="selectedCategoryText">Spark</span> (e.g., 'Deploy web site' 'Learn Python basics').
+                    Type a name that represents the goal of your <span id="selectedCategoryText">Spark</span> (e.g., 'Deploy web site' 'Learn Python basics').
                 </small>
             </div>
 
@@ -64,22 +64,15 @@
 
             <div class="mb-3">
                 <label class="form-label fw-bold">Hashtags</label>
-                <input asp-for="HashtagList" class="form-control"  placeholder="Type hashtag and press Enter" />
-                
-                <div class="mt-2">
+                <div class="input-group">
+                    <input id="hashtag-input" class="form-control" placeholder="Type hashtag and press Enter" />
+                    <button type="button" class="btn btn-primary" id="addTagButton"> + </button>
+                </div>
+                <div>
                     <div id="hashtag-list">
-                    @* @if (@Model.Hashtags != null)
-                    {
-                        @foreach(var h in @Model.Hashtags)
-                        {
-                            <li class="hashtag-item">
-                                <span>@h.Name</span>
-                                <span class="close"></span>
-                            </li>
-                        }
-                    } *@
                     </div>
                 </div>
+                <input type="hidden" asp-for="HashtagList" id="hashtag-hidden-input" />
                 <small class="form-text text-muted d-block">
                     Add up to 10 hashtags to help others discover your spark
                 </small>
@@ -91,7 +84,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" value="Create" class="btn btn-primary float-end">Create</button>
+                <button type="submit" value="Create" class="btn btn-warning float-end">Create</button>
             </div>
         </form>
     </div>
