@@ -27,14 +27,14 @@
             <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center">
                     <div class="profile-image align-items-center">
-                        <img src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg" alt="">
+                        <img />
                     </div>
                     <div class="profile-text">
                         <span>@Model.Input.CurrentUser.UserName</span>
-                        <div class="d-flex">
+                        @* <div class="d-flex">
                             <span class="me-2">Level: 1</span>
                             <span>XP: 100</span>
-                        </div>
+                        </div> *@
                     </div>
                 </div>
             </div>
@@ -50,9 +50,9 @@
     <div class="row">
         <div class="col-md-4">
             <form method="post" id="profile-form">
-                <div class="f-field-row mb-0">
+                @* <div class="f-field-row mb-0">
                     <h3 class="ch3">General</h3>
-                </div>
+                </div> *@
                 <div class="f-field-row">
                     <label class="input-label" for="profile-username">Name</label>
                     <input asp-for="@Model.Input.CurrentUser.Name" id="profile-username" class="f-input" type="text" placeholder="Your name">
@@ -62,7 +62,7 @@
                     <textarea asp-for="@Model.Input.CurrentUser.Description" id="profile-description" class="f-textarea" placeholder="Write about yourself"></textarea>
                 </div>
                 <div class="f-field-row">
-                    <h3 class="ch3">Links</h3>
+                   @*  <h3 class="ch3">Links</h3>
                     @for (var i = 0; i < Model.Input.UserSocialLinks.Count; i++)
                     {
                         <div class="f-field-row">
@@ -79,7 +79,7 @@
                                        asp-for="Input.UserSocialLinks[i].Url">
                             </div>
                         </div>
-                    }
+                    } *@
                 </div>
                 <div id="profile-action-btns" class="mt-3">
                     <div class="d-flex justify-content-center">
