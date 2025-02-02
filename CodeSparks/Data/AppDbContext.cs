@@ -19,7 +19,9 @@ namespace CodeSparks.Data
         public DbSet<SparkComment> SparkComments { get; set; }
         public DbSet<SparkUserStatus> SparkStatuses { get; set; }
         public DbSet<SocialLink> SocialLinks { get; set; }
-        public DbSet<Hashtag> Hashtags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<SparkTag> SparkTags { get; set; }
+        public DbSet<BlogTag> BlogTags { get; set; }
 
 
         public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }

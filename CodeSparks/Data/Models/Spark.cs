@@ -29,9 +29,9 @@ namespace CodeSparks.Data.Models
         [Url]
         [MaxLength(250)]
         public string? Url { get; set; }
-        public virtual ICollection<SparkComment> Comments { get; set; } = new List<SparkComment>();
-        public virtual ICollection<SparkUserStatus> UserStatuses { get; set; } = new List<SparkUserStatus>();
-        public virtual ICollection<Hashtag> Hashtags { get; set; } = new List<Hashtag>();
+        public virtual ICollection<SparkComment> Comments { get; set; } = [];
+        public virtual ICollection<SparkUserStatus> UserStatuses { get; set; } = [];
+        public virtual ICollection<SparkTag> Tags { get; set; } = [];
     }
 
     public enum SparkCategory

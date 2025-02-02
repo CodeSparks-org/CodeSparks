@@ -30,7 +30,7 @@ namespace CodeSparks.Controllers
             
             IQueryable<Spark> sparks = _context.Sparks
                 .Include(s => s.UserStatuses)
-                .Include(s => s.Hashtags)
+                .Include(s => s.Tags)
                 .Where(s => s.IsPublic);
 
             if (selectedCategory != null)
@@ -39,10 +39,11 @@ namespace CodeSparks.Controllers
                         .Where(s => s.Category == selectedCategory);
             }
 
-            if (hashtagFilter != null)
-            {
-                sparks = sparks.Where(s => s.Hashtags.Any(h => hashtagFilter == h.Name));
-            }
+            //TODO: fix tags
+            //if (hashtagFilter != null)
+            //{
+            //    sparks = sparks.Where(s => s.Tags.Any(h => hashtagFilter == h.Name));
+            //}
 
             ViewData["SelectedCategory"] = selectedCategory;
             var model = await sparks.ToListAsync();
@@ -142,20 +143,23 @@ namespace CodeSparks.Controllers
             {
                 if (!string.IsNullOrEmpty(sparkInput.HashtagList))
                 {
-                    var hashtags = sparkInput.HashtagList.Split(',')
-                    .Where(h => !_context.Hashtags.Any(dbH => dbH.Name == h))
-                    .Select(h => {
-                        var hashtag = new Hashtag {
-                            Name = h.Trim(),
-                            SparkId = spark.Id,
-                        };
+                    //TODO: Fix tags
+                    //var tag = await _context.Hashtags.FirstOrDefaultAsync(t = t.Name); 
 
-                        return hashtag;
-                    })
-                    .DistinctBy(h => h.Name)
-                    .ToList();
+                    //var hashtags = sparkInput.HashtagList.Split(',')
+                    //.Where(h => !_context.Hashtags.Any(dbH => dbH.Name == h))
+                    //.Select(h => {
+                    //    var hashtag = new Tag {
+                    //        Name = h.Trim(),
+                    //        SparkId = spark.Id,
+                    //    };
 
-                    _context.Hashtags.AddRange(hashtags);
+                    //    return hashtag;
+                    //})
+                    //.DistinctBy(h => h.Name)
+                    //.ToList();
+
+                    //_context.Hashtags.AddRange(hashtags);
                 }
 
                 _context.Add(spark);
