@@ -12,12 +12,18 @@ namespace CodeSparks.Data.Models
         public string? Value { get; set; }
         [MaxLength(255)]
         public string? Type { get; set; }
-        public DateTime Updated { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public MetadataStatus? Status { get; set; }
 
         public AppMetadata()
         {
-            Updated = DateTime.UtcNow.ToUniversalTime();
+            CreatedAt = DateTime.UtcNow.ToUniversalTime();
         }
+    }
 
+    public enum MetadataStatus
+    {
+        Ok = 0,
+        Hidden = 1,
     }
 }
