@@ -25,5 +25,6 @@ namespace CodeSparks.Data.Models
     {
         Ok = 0,
         Hidden = 1,
+        System = 2,
     }
 }
