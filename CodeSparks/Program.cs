@@ -7,6 +7,7 @@ using CodeSparks.Temp;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -68,6 +69,10 @@ builder.Services.AddScoped<ISocialNetworkService, SocialNetworkService>();
 
 var app = builder.Build();
 app.Logger.LogInformation("Application starting up");
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost,
+});
 
 if (!testMode)
     using (var scope = app.Services.CreateScope())
