@@ -6,6 +6,7 @@ using CodeSparks.Services.Repositories;
 using CodeSparks.Temp;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -44,6 +45,14 @@ builder.Services.AddAuthentication()
 {
     options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    options.Events = new OAuthEvents
+    {
+        OnRedirectToAuthorizationEndpoint = context =>
+        {
+            Console.WriteLine("Google redirect URI: " + context.RedirectUri);
+            return Task.CompletedTask;
+        }
+    };
 })
 .AddGitHub(options =>
 {
@@ -69,10 +78,6 @@ builder.Services.AddScoped<ISocialNetworkService, SocialNetworkService>();
 
 var app = builder.Build();
 app.Logger.LogInformation("Application starting up");
-app.UseForwardedHeaders(new ForwardedHeadersOptions
-{
-    ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost,
-});
 
 if (!testMode)
     using (var scope = app.Services.CreateScope())
@@ -91,6 +96,12 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost,
+        KnownNetworks = { }, // trust any proxy
+        KnownProxies = { }
+    });
 }
 
 if (isHttpsRequired)
