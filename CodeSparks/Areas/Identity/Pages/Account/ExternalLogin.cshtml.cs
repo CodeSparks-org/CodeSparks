@@ -99,6 +99,7 @@ namespace CodeSparks.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
+            Console.WriteLine("OnGetCallbackAsync");
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
             {
@@ -114,6 +115,8 @@ namespace CodeSparks.Areas.Identity.Pages.Account
 
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            Console.WriteLine(result.Succeeded);
+            Console.WriteLine(result);
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
