@@ -96,12 +96,17 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    app.UseForwardedHeaders(new ForwardedHeadersOptions
+
+    var forwardedHeadersOptions = new ForwardedHeadersOptions
     {
         ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost,
-        KnownNetworks = { }, // trust any proxy
-        KnownProxies = { }
-    });
+    };
+
+    // Required for non-loopback proxies like Render
+    forwardedHeadersOptions.KnownNetworks.Clear();
+    forwardedHeadersOptions.KnownProxies.Clear();
+
+    app.UseForwardedHeaders(forwardedHeadersOptions);
 }
 
 if (isHttpsRequired)
