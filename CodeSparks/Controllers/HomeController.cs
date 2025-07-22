@@ -24,11 +24,6 @@ namespace CodeSparks.Controllers
             return View();
         }
 
-        public IActionResult OldLanding()
-        {
-            return View();
-        }
-
         public IActionResult Privacy()
         {
             return View();
